@@ -4,7 +4,7 @@ var bodyParser = require('body-parser');
 
 var app = express();
 app.use(morgan('dev'));
-app.use(bodyParser.json());////
+app.use(bodyParser.json());
 
 
 var port = process.env.PORT || 3000; //
