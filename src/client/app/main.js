@@ -11,6 +11,7 @@ export class Main extends React.Component {
   render () {
     return (
       <h1>hello again from Main</h1>
+      <h1>loc: window.loc</h1>
 
 
 
