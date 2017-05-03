@@ -1,6 +1,7 @@
 var express = require("express");
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
+var favicon = require('favicon'); //use this to add icon to webpage
 
 var app = express();
 app.use(morgan('dev'));
