@@ -5,9 +5,11 @@ import {render} from 'react-dom';
 export class Quest extends React.Component {
   render () {
     return (
-    <div class="quest">
-      <p> Hello React!!  From Quest</p>
-    </div>
+    <ol class="quest">
+      <li>Dolores Park</li>
+      <li>Tartine Bakery</li>
+      <li>Project Juice</li>
+    </ol>
     )
   }
 }
