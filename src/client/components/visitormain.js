@@ -1,7 +1,6 @@
 import React from 'react';
 import {render} from 'react-dom';
 
-var bootstrap = require('bootstrap');
 
 
 export class VisitorMain extends React.Component {
