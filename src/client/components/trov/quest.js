@@ -10,9 +10,12 @@ class Quest extends React.Component {
     return (
     <div className="quest">
     <ol>
-      <li>Dolores Park</li>
-      <li>Tartine Bakery</li>
       <li>Project Juice</li>
+      <li>Dolores Park</li>
+      <li>Galleria de la Raza</li>
+      <li>Tartine Bakery</li>
+      <li>Urban Putt</li>
+      <li>Flour + Water</li>
       <li>Humphrey Slocombe</li>
     </ol>
     </div>

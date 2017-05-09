@@ -8,7 +8,7 @@ class Sidebar extends React.Component {
     <div id="sidebar">
     <ul>
       <li>Account Settings</li>
-      <li></li>
+      <li><a>Sign Up</a> / <a>Login</a></li>
     </ul>
     </div>
     )

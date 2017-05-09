@@ -11,7 +11,6 @@ export class TrovMain extends React.Component {
     return (
     <div id="trovmain">
       <Troves />
-      <Footer />
     </div>
     )
   }
