@@ -4,8 +4,7 @@ import {VisitorMain} from './visitormain.js';
 import {UserNoTrovMain} from './usernotrov/usernotrovmain.js';
 import {TrovMain} from './trov/trovmain.js';
 import {Map} from './map.js'
-// import testTrov from './exampleTrovData.js';
-var testTrov = require('./exampleTrovData.js');
+import testTrov from './exampleTrovData.js';
 
 var ajax = require('./ajax.js');
 
@@ -83,11 +82,10 @@ class Main extends React.Component {
   render() {
     // conditional renders here . . . ie if statements, will check isLoggedIn and isOnTrovNow
 
-    {this._renderVisitorMain()}
-    {this._renderUser()}
-
     // TEST AREA: delete me if not needed
+
     return (
+
       <div id="trovmain">
         <h1>test buttons</h1>
         <div>currentTrov: {this.state.currentTrov ? this.state.currentTrov.name : 'none'} </div>
@@ -97,8 +95,10 @@ class Main extends React.Component {
         <button onClick={this.handleSelectTrov.bind(this)}>Select Trov (testTrov)</button>
         <button onClick={this.handleCompleteChallenge.bind(this)}>Complete Challenge</button>
         <button onClick={this.handleCompleteTrov.bind(this)}>Complete Trov</button>
-        <Map />
+        <div><Map /></div>
         <div>[GoogleMap goes here]</div>
+        <div id='visitor-main'>{this._renderVisitorMain()}</div>
+        <div id='user'>{this._renderUser()}</div>
       </div>
     )
   }
