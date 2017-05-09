@@ -3,11 +3,14 @@ import render from 'react-dom';
 
 
 class Profile extends React.Component {
+  constructor(props) {
+    super(props);
+  }
   render () {
     return (
-    <div id="profile">
-    <p>Username</p>
-    </div>
+    <span id="profile">
+      <p>{this.props.name}</p>
+    </span>
     )
   }
 }

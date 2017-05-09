@@ -8,33 +8,6 @@ body {
   left:0px; top:0px; right:0; bottom:92px;
   height: 92px;
 }
-#footer {
-  font-family: "Whitney";
-  font-size: 1em;
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  text-align: center;
-}
-#troves{
-  font-family: "Gotham";
-}
-#troves h1 {
-  font-size: 3em;
-}
-#troves h2 {
-  font-size: 2.25em;
-}
-.quest p, .quest li {
-  font-family: "Whitney";
-  font-size: 1.25em;
-}
-#visitormain, #trovmain {
-  position: absolute;
-  text-align: center;
-  left:270px; top:92px; right:0; bottom:0;
-}
 #sidebar {
   position:absolute;
   padding-top: 20px;
@@ -44,19 +17,71 @@ body {
   background-color: #FF7F50;
   left:0; top:92px; bottom: 0;
   width: 270px;
+  font-family: "Whitney SSm A", "Whitney SSm B";
+  font-style: normal;
+  font-weight: 500;
 }
 #sidebar li {
   list-style: none;
   color: white;
-  font-family: "Whitney";
   font-size: 1.5em;
 }
 #profile {
-  border: 2px solid #c7b89e;
+  display: inline-block;
+  float: right;
+  padding-right: 40px;
+  line-height: 92px;
+  color: white;
+  font-size: 1.5em;
+  font-family: "Whitney SSm A", "Whitney SSm B";
+  font-style: normal;
+  font-weight: 500;
 }
-#profile,#profile img {
-	width: 50px;
-	height: 50px;
-	-webkit-border-radius: 30px; /* Saf3+, Chrome */
-	border-radius: 30px;
-	}
+#profile img{
+  display: inline-block;
+  float: left;
+}
+#footer {
+  font-size: 1em;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+  font-family: "Whitney SSm A", "Whitney SSm B";
+  font-style: normal;
+  font-weight: 400;
+  margin-left: 270px;
+}
+#trov {
+  padding-left: 20px;
+  font-family: "Gotham A", "Gotham B";
+  font-style: normal;
+  font-weight: 700;
+}
+#trov h2, #visitormain h2 {
+  font-size: 2.25em;
+  font-family: "Gotham A", "Gotham B";
+  font-style: normal;
+  font-weight: 700;
+}
+#troves{
+}
+#troves h1, #visitormain h1 {
+  font-size: 3em;
+  font-family: "Gotham A", "Gotham B";
+  font-style: normal;
+  font-weight: 700;
+}
+.quest p, .quest li {
+  font-family: "Whitney SSm A", "Whitney SSm B";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 1.25em;
+}
+#visitormain, #trovmain {
+  position: absolute;
+  padding-top: 20px;
+  padding-left: 40px;
+  left:270px; top:92px; right:0; bottom:0;
+}
