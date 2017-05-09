@@ -21,10 +21,12 @@ body {
   font-style: normal;
   font-weight: 500;
 }
-#sidebar li {
+#sidebar li, #sidebar a{
   list-style: none;
   color: white;
-  font-size: 1.5em;
+  font-size: 16pt;
+  line-height: 3em;
+  text-decoration: none;
 }
 #profile {
   display: inline-block;
