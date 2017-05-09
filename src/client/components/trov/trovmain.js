@@ -3,7 +3,7 @@ import render from 'react-dom';
 import Troves from './troves.js';
 import Footer from '../footer.js';
 
-class TrovMain extends React.Component {
+export class TrovMain extends React.Component {
   constructor () {
     super();
   }
@@ -16,5 +16,3 @@ class TrovMain extends React.Component {
     )
   }
 }
-
-export default TrovMain;

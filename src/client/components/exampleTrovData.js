@@ -1,5 +1,3 @@
-
-
 var testTrov = {
   name: 'The Best Test Trov',
   createdBy: 'Team Trov',
@@ -13,7 +11,7 @@ var testTrov = {
     testChallengeFive,
     testChallengeSix,
     testChallengeSeven
-  ] 
+  ]
 
 }
 
@@ -89,6 +87,7 @@ var testChallengeSeven = {
   longitude: -122.4091143,
   reward: 'rewardString'
 }
+//
+// export default testTrov;
 
-export default testTrov;
-
+module.exports = testTrov; 

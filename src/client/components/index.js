@@ -4,13 +4,14 @@ import Header from './header.js'
 import VisitorMain from './visitormain';
 import TrovMain from './trov/trovmain.js';
 import Sidebar from './sidebar'
+import Main from './main.js'
 
- class App extends React.Component {
+class App extends React.Component {
   render () {
     return (
     <div id="main" className="container">
       <Header />
-      <TrovMain/>
+      <Main />
       <Sidebar />
     </div>
     )

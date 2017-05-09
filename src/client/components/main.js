@@ -1,15 +1,15 @@
 import React from 'react';
 import {render} from 'react-dom';
-import {VisitorMain} from './visitormain';
-import {UserNoTrovMain} from './usernotrov/usernotrovmain';
-import {TrovMain} from './trov/trovmain';
-import {Map} from './map'
-import testTrov from './exampleTrovData';
-
+import {VisitorMain} from './visitormain.js';
+import {UserNoTrovMain} from './usernotrov/usernotrovmain.js';
+import {TrovMain} from './trov/trovmain.js';
+import {Map} from './map.js'
+// import testTrov from './exampleTrovData.js';
+var testTrov = require('./exampleTrovData.js');
 
 var ajax = require('./ajax.js');
 
-export class Main extends React.Component {
+class Main extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -17,8 +17,8 @@ export class Main extends React.Component {
       isOnTrovNow: false,
       currentTrov: null,
       currentChallengeNum: 0
-
     }
+    console.log('Test Trov Data: ', testTrov);
   }
 
   componentWillMount() {
@@ -31,6 +31,7 @@ export class Main extends React.Component {
   }
 
   handleLogIn () {
+    console.log('handleLogIn');
     //will need to check if there is a current session, if so:
     this.setState({
       isLoggedIn: true
@@ -38,12 +39,14 @@ export class Main extends React.Component {
   }
 
   handleLogOut () {
+    console.log('handleLogOut');
     this.setState({
       isLoggedIn: false
     })
   }
 
   handleSelectTrov () {
+    console.log('handleSelectTrov');
     if (this.state.isLoggedIn) {
       this.setState({
         isOnTrovNow: true,
@@ -53,6 +56,7 @@ export class Main extends React.Component {
   }
 
   handleCompleteChallenge () {
+    console.log('handleCompleteChallenge');
     if (this.state.currentTrov && this.state.isLoggedIn) {
       var newCurrentChallengeNum = this.state.currentChallengeNum+1;
       this.setState({
@@ -62,6 +66,7 @@ export class Main extends React.Component {
   }
 
   handleCompleteTrov () {
+    console.log('handleCompleteTrov');
     this.setState({
       isOnTrovNow: false,
       currentTrov: null,
@@ -75,15 +80,15 @@ export class Main extends React.Component {
     //gets passed down to trovmain
   }
 
-  render () {
-    //conditional renders here . . . ie if statements, will check isLoggedIn and isOnTrovNow
+  render() {
+    // conditional renders here . . . ie if statements, will check isLoggedIn and isOnTrovNow
+
+    {this._renderVisitorMain()}
+    {this._renderUser()}
+
+    // TEST AREA: delete me if not needed
     return (
-      <div>
-
-        {this._renderVisitorMain()}
-        {this._renderUser()}
-
-        //TEST AREA: delete me if not needed
+      <div id="trovmain">
         <h1>test buttons</h1>
         <div>currentTrov: {this.state.currentTrov ? this.state.currentTrov.name : 'none'} </div>
         <div>currentChallengeNum: {this.state.currentChallengeNum}</div>
@@ -92,10 +97,10 @@ export class Main extends React.Component {
         <button onClick={this.handleSelectTrov.bind(this)}>Select Trov (testTrov)</button>
         <button onClick={this.handleCompleteChallenge.bind(this)}>Complete Challenge</button>
         <button onClick={this.handleCompleteTrov.bind(this)}>Complete Trov</button>
-
+        <Map />
+        <div>[GoogleMap goes here]</div>
       </div>
-
-      )
+    )
   }
 
   _renderVisitorMain () {
@@ -113,11 +118,10 @@ export class Main extends React.Component {
       return <TrovMain />
     }
   }
-
-
-
-      <VisitorMain/>
-      )
-  }
+  // <VisitorMain/>
+  // )
+  // }
 
 }
+
+export default Main;
