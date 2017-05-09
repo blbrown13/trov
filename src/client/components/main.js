@@ -12,7 +12,6 @@ var ajax = require('./ajax.js');
 export class Main extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       isLoggedIn: false,
       isOnTrovNow: false,
@@ -20,19 +19,15 @@ export class Main extends React.Component {
       currentChallengeNum: 0
 
     }
-
   }
 
   componentWillMount() {
-
     //will need to access db and set state with current Trov and progress here
 
-    //somehow we need up-to-date geo data, perhps this + setInterval will do it . . .
     navigator.geolocation.getCurrentPosition(function(ps) {
       window.loc = ps;
       console.log('loc: ', ps);
     });
-
   }
 
   handleLogIn () {
@@ -80,11 +75,8 @@ export class Main extends React.Component {
     //gets passed down to trovmain
   }
 
-
   render () {
-
-    //conditional renders here . . . ie if statements, will check isLoggedIn and isOnTrovNow 
-
+    //conditional renders here . . . ie if statements, will check isLoggedIn and isOnTrovNow
     return (
       <div>
 
@@ -123,5 +115,9 @@ export class Main extends React.Component {
   }
 
 
-}
 
+      <VisitorMain/>
+      )
+  }
+
+}
