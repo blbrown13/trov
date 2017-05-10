@@ -6,7 +6,6 @@ import {UserNoTrovMain} from './usernotrov/usernotrovmain.js';
 import {TrovMain} from './trov/trovmain.js';
 import {Map} from './map.js'
 import testTrov from './exampleTrovData.js';
-import Auth from './auth.js'
 
 
 class Main extends React.Component {
@@ -14,7 +13,7 @@ class Main extends React.Component {
     super(props);
     this.state = {
       isLoggedIn: false,
-      isOnTrovNow: true,
+      isOnTrovNow: false,
       allTrovs: [],
       currentTrov: null,
       currentChallengeNum: 0
@@ -27,6 +26,7 @@ class Main extends React.Component {
   }
 
   componentWillMount() {
+
     navigator.geolocation.getCurrentPosition(function(ps) {
       window.loc = ps;
       console.log('loc: ', ps);
@@ -64,11 +64,53 @@ class Main extends React.Component {
   handleCompleteTrov () {
     console.log('handleCompleteTrov');
     this.setState({
-      isOnTrovNow: true,
+      isOnTrovNow: false,
       currentTrov: null,
       currentChallengeNum: 0
     })
   }
+
+
+  render() {
+    // conditional renders here . . . ie if statements, will check isLoggedIn and isOnTrovNow
+    if (!this.state.isLoggedIn) {
+      return <VisitorMain />
+    } if (!this.state.isOnTrovNow && this.state.isLoggedIn) {
+      return (<div>
+          <UserNoTrovMain />
+            allTrovs={this.state.allTrovs}
+            handleSelectTrov={this.handleSelectTrov.bind(this)}
+            <button onClick={this.getAllTrovs.bind(this)}>Test Yer Get</button>
+            </div>)
+    } else if (this.state.isOnTrovNow && this.state.isLoggedIn) {
+      return <TrovMain
+        currentTrov={this.state.currentTrov}
+        currentChallengeNum={this.state.currentChallengeNum}
+        handleCompleteChallenge={this.handleCompleteChallenge.bind(this)}
+        handleCompleteTrov={this.handleCompleteTrov.bind(this)}
+      />
+    }
+  }
+    // TEST AREA: delete me if not needed
+
+  //   return (
+  //
+  //     <div id="trovmain">
+  //       <h1>test buttons</h1>
+  //       <div>currentTrov: {this.state.currentTrov ? this.state.currentTrov.name : 'none'} </div>
+  //       <div>currentChallengeNum: {this.state.currentChallengeNum}</div>
+  //       <button onClick={this.handleSelectTrov.bind(this)}>Select Trov (testTrov)</button>
+  //       <button onClick={this.handleCompleteChallenge.bind(this)}>Complete Challenge</button>
+  //       <button onClick={this.handleCompleteTrov.bind(this)}>Complete Trov</button>
+  //       <div><Map /></div>
+  //       <div>[GoogleMap goes here]</div>
+  //       <div id='visitor-main'>{this._renderVisitorMain()}</div>
+  //       <div id='user'>{this._renderUser()}</div>
+  //     </div>
+  //   )
+  // }
+  //
+
 
   addNewUserToDB (username, email, location) {
     var newUser = {
@@ -86,7 +128,7 @@ class Main extends React.Component {
     var newTrovArray;
     axios.get('http://localhost:3000/getalltrovs')
       .then(function(trovArray) {
-        newTrovArray = trovArray;
+        newTrovArray = JSON.parse(trovArray);
         console.log('getAllTrovs returns newTrovArray: ', newTrovArray);
     })
     this.setState({
@@ -99,22 +141,10 @@ class Main extends React.Component {
       trovName: trovName,
       currentChallengeNum: currentChallengeNum
     }
-    axios.post('http://localhost:3000/updateUserTrov', updatedTrovInfo)
+    axios.post('http://localhost:3000/updateusertrov', updatedTrovInfo)
       .then(function() {
         console.log('user trov data updated');
       })
-  }
-
-  render() {
-    // conditional renders here . . . ie if statements, will check isLoggedIn and isOnTrovNow
-    // if (!this.state.isLoggedIn) {
-    //   return <VisitorMain />
-    // } if (!this.state.isOnTrovNow && this.state.isLoggedIn) {
-    //   return <UserNoTrovMain allTrovs={this.state.allTrovs} handleSelectTrov={this.handleSelectTrov.bind(this)} />
-    // } else if (this.state.isOnTrovNow && this.state.isLoggedIn) {
-    //   return <TrovMain currentTrov={this.state.currentTrov} currentChallengeNum={this.state.currentChallengeNum} handleCompleteChallenge={this.handleCompleteChallenge.bind(this)} handleCompleteTrov={this.handleCompleteTrov.bind(this)} />
-    // }
-    return <TrovMain />
   }
 
 }
