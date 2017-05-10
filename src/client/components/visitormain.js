@@ -4,6 +4,7 @@ import Troves from './trov/troves.js';
 import TrovMain from './trov/trovmain.js';
 import Header from './header.js';
 import Footer from './footer.js';
+import Auth from './auth.js';
 
 
 export class VisitorMain extends React.Component {
