@@ -13,7 +13,9 @@ export default class Trov extends React.Component {
   renderChallenges() {
     var toRender = [];
     for (var counter = 0; counter < this.state.progress; counter++) {
-      toRender.push(<Quest challenge={this.props.challenges[counter]} key={counter}/>);
+      var currChall = this.props.challenges.challenges[counter];
+      console.log(currChall);
+      toRender.push(<Quest challenge={currChall.name} key={counter}/>);
     }
     return toRender;
   }

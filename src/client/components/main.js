@@ -1,12 +1,12 @@
 import React from 'react';
 import {render} from 'react-dom';
+import axios from 'axios';
 import {VisitorMain} from './visitormain.js';
 import {UserNoTrovMain} from './usernotrov/usernotrovmain.js';
 import {TrovMain} from './trov/trovmain.js';
 import {Map} from './map.js'
 import testTrov from './exampleTrovData.js';
 
-var ajax = require('./ajax.js');
 
 class Main extends React.Component {
   constructor(props) {
@@ -14,6 +14,7 @@ class Main extends React.Component {
     this.state = {
       isLoggedIn: false,
       isOnTrovNow: false,
+      allTrovs: [],
       currentTrov: null,
       currentChallengeNum: 0
     }
@@ -25,7 +26,6 @@ class Main extends React.Component {
   }
 
   componentWillMount() {
-    //will need to access db and set state with current Trov and progress here
 
     navigator.geolocation.getCurrentPosition(function(ps) {
       window.loc = ps;
@@ -33,25 +33,33 @@ class Main extends React.Component {
     });
   }
 
-  // handleSelectTrov () {
-  //   console.log('handleSelectTrov');
-  //   if (this.state.isLoggedIn) {
-  //     this.setState({
-  //       isOnTrovNow: true,
-  //       currentTrov: testTrov //change me when we can select new trovs!!!!
-  //     })
-  //   }
-  // }
+  handleSelectTrov () { //how to insert trov as parameter???
+    console.log('handleSelectTrov');
+    if (this.state.isLoggedIn) {
+      this.setState({
+        isOnTrovNow: true,
+        currentTrov: testTrov //change me when we can select new trovs!!!!
+      })
+    }
+  }
 
-  // handleCompleteChallenge () {
-  //   console.log('handleCompleteChallenge');
-  //   if (this.state.currentTrov && this.state.isLoggedIn) {
-  //     var newCurrentChallengeNum = this.state.currentChallengeNum+1;
-  //     this.setState({
-  //       currentChallengeNum: newCurrentChallengeNum
-  //     })
-  //   }
-  // }
+  handleCompleteChallenge () {
+    console.log('handleCompleteChallenge');
+    if (this.state.currentTrov && this.state.isLoggedIn) {
+      if (this.state.currentChallengeNum >= this.state.currentTrov.challenges.length-1) {
+        this.setState({
+          isOnTrovNow: false,
+          currentTrov: null,
+          currentChallengeNum: 0
+        })        
+      } else {
+        var newCurrentChallengeNum = this.state.currentChallengeNum+1;
+        this.setState({
+          currentChallengeNum: newCurrentChallengeNum
+        })
+      }
+    }
+  }
 
   handleCompleteTrov () {
     console.log('handleCompleteTrov');
@@ -61,25 +69,25 @@ class Main extends React.Component {
       currentChallengeNum: 0
     })
   }
-  handleCheckLocButtonClick () {
-    //checks if window.loc is acceptably close to this.state.currentTrov coordinates
-    //gets passed down to trovmain
-  }
-
-  renderMain() {
-    if (!this.state.isLoggedIn) {
-      return <VisitorMain />
-    }
-    else {
-      return <TrovMain />
-    }
-  }
+ 
 
   render() {
     // conditional renders here . . . ie if statements, will check isLoggedIn and isOnTrovNow
-    return (
-      this.renderMain()
-    )
+    if (!this.state.isLoggedIn) {
+      return <VisitorMain />
+    } if (!this.state.isOnTrovNow && this.state.isLoggedIn) {
+      return <UserNoTrovMain 
+        allTrovs={this.state.allTrovs}
+        handleSelectTrov={this.handleSelectTrov.bind(this)}
+      />
+    } else if (this.state.isOnTrovNow && this.state.isLoggedIn) {
+      return <TrovMain 
+        currentTrov={this.state.currentTrov}
+        currentChallengeNum={this.state.currentChallengeNum}
+        handleCompleteChallenge={this.handleCompleteChallenge.bind(this)}
+        handleCompleteTrov={this.handleCompleteTrov.bind(this)}
+      />
+    }
   }
     // TEST AREA: delete me if not needed
 
@@ -100,24 +108,44 @@ class Main extends React.Component {
   //   )
   // }
   //
-  // _renderVisitorMain () {
-  //   if (!this.state.isLoggedIn) {
-  //     return <VisitorMain />
-  //   } else {
-  //     return null;
-  //   }
-  // }
-  //
-  // _renderUser () {
-  //   if (!this.state.isOnTrovNow && this.state.isLoggedIn) {
-  //     return <UserNoTrovMain />
-  //   } else if (this.state.isOnTrovNow && this.state.isLoggedIn) {
-  //     return <TrovMain />
-  //   }
-  // }
-  // // <VisitorMain/>
-  // // )
-  // // }
+
+
+  addNewUserToDB (username, email, location) {
+    var newUser = {
+      username: username,
+      email: email,
+      location: location
+    }
+    axios.post('http://localhost:3000/addnewusertodb', newUser)
+      .then(function() {
+        console.log('user added');
+      })
+  }
+
+  getAllTrovs () {
+    var newTrovArray;
+    axios.get('http://localhost:3000/getalltrovs')
+      .then(function(trovArray) {
+        newTrovArray = trovArray;
+        console.log('getAllTrovs returns newTrovArray: ', newTrovArray);
+    })
+    this.setState({
+      allTrovs: newTrovArray
+    })
+  }
+
+  updateUserTrov (trovName, currentChallengeNum) {
+    var updatedTrovInfo = {
+      trovName: trovName,
+      currentChallengeNum: currentChallengeNum
+    }
+    axios.post('http://localhost:3000/updateUserTrov', updatedTrovInfo)
+      .then(function() {
+        console.log('user trov data updated');
+      })
+
+  }
+
 
 }
 
