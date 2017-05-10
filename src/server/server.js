@@ -84,7 +84,7 @@ server.post('/updateusertrov', function(req, res) {
 });
 
 // *** ADD USER **
-server.post('https://localhost:3000/addnewusertodb', function(req, res) {
+server.post('/addnewusertodb', function(req, res) {
   // req.body.username
   var newUser = req.body.username;
   var email = req.body.email;
