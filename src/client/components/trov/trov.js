@@ -12,11 +12,14 @@ export default class Trov extends React.Component {
   }
   renderChallenges() {
     var toRender = [];
-    for (var counter = 0; counter < this.state.progress; counter++) {
+    var counter;
+
+    for (counter = 0; counter < this.state.progress; counter++) {
       var currChall = this.props.challenges.challenges[counter];
       console.log(currChall);
-      toRender.push(<Quest challenge={currChall.name} key={counter}/>);
+      toRender.push(<Quest challenge={currChall.name} key={counter} displayType={"challenge"}/>);
     }
+    toRender.push(<Quest challenge={this.props.challenges.challenges[counter].hint} key={counter} displayType={"hint"}/>);
     return toRender;
   }
 
@@ -24,9 +27,9 @@ export default class Trov extends React.Component {
     return (
     <div id="trov">
       <h2>Mission Meltdown</h2>
-      <ol className="quest">
+      <ul className="quest">
         {this.renderChallenges()}
-      </ol>
+      </ul>
     </div>
     )
   }

@@ -3,7 +3,7 @@ import render from 'react-dom';
 import Trov from './trov.js';
 const challenges = require('./missionmeltdown.js');
 
-export default class Troves extends React.Component {
+export default class AvailableTroves extends React.Component {
   constructor () {
     super();
   }

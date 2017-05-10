@@ -9,7 +9,7 @@ class Quest extends React.Component {
   }
   render () {
     return (
-    <li>{this.props.challenge}</li>
+    <li className={this.props.displayType}>{this.props.challenge}</li>
     )
   }
 }
