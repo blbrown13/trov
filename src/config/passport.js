@@ -4,8 +4,8 @@ var FacebookStrategy = require('passport-facebook').Strategy;
 // var User       = require('../server/db.js'); // *NEED TO CHANGE FOR SQL DB
 var configAuth = require('./auth');
 
-var FB = require('fb');
-fb = new FB.Facebook();
+// var FB = require('fb');
+// fb = new FB.Facebook();
 
 // checkToken = () => {
 //   fb.getLoginStatus(function(response) {

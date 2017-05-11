@@ -10,58 +10,81 @@ server.use(function(req, res, next) {
   next();
 });
 
+// creating tables in database
+db.connection.query(`CREATE DATABASE IF NOT EXISTS trov;`);
+db.connection.query(`USE trov;`);
+db.connection.query(`CREATE TABLE IF NOT EXISTS users (
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(50) UNIQUE,
+  facebookId VARCHAR(100) UNIQUE,
+  email VARCHAR(75) UNIQUE
+);`);
+db.connection.query(`CREATE TABLE IF NOT EXISTS trovs (
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(50) UNIQUE,
+  createdBy INT,
+  numberOfUsers VARCHAR(10),
+  currentProgress INT,
+  challenges VARCHAR(50)
+);`);
+db.connection.query(`CREATE TABLE IF NOT EXISTS users_trovs (
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  userId INT,
+  trovId INT,
+  currentChallenge INT,
+  totalChallenges INT,
+  FOREIGN KEY (userId) REFERENCES users(id),
+  FOREIGN KEY (trovId) REFERENCES trovs(id)
+);`);
+db.connection.query(`CREATE TABLE IF NOT EXISTS challenges (
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(50) UNIQUE,
+  hint VARCHAR(50),
+  challengeNum INT(255),
+  latitude VARCHAR(100),
+  longitude VARCHAR(100),
+  reward VARCHAR(100)
+);`);
 
+// *** GET ALL TROVES FROM DB **
 server.get('/getalltrovs', function(req, res) {
-
-  var AllTrovs = [];
-
+  var AllTrovs;
   db.connection.query(`use trov`);
   db.connection.query(`SELECT * FROM trovs;`,
     function(error, result) {
       if(error) {
         console.log("Error querying")
+        console.log(error)
       } else {
         console.log("Success querying")
-        console.log(result);
-        AllTrovs = result;
+        // console.log(result);
+        AllTrovs = JSON.stringify(result);
+        res.end(AllTrovs);
+      }
+    }
+  )
+});
+
+// *** UPDATE TROVE FROM DB **
+server.post('/updateusertrov', function(req, res) {
+  var trovName = req.body.trovName;
+  var currChall = req.body.currentChallengeNum;
+
+  db.connection.query(`use trov`);
+  db.connection.query(`UPDATE trovs SET currentProgress = ${currChall} WHERE name = "${trovName}";`,
+    function(error, result) {
+      if(error) {
+        console.log("Error querying")
+      } else {
+        console.log("Success updating trov!")
       }
     }
   )
   res.end();
 });
-// *** SELECT TROVE **
-
-server.post('/', function(req, res) {
-  // info posted: troveName
-  // go into db
-  // get troveName info from trovs db
-  console.log('select trove')
-});
-
-
-// *** FINISH CHALLENGE **
-
-server.post('/', function(req, res) {
-  // info posted: challengeFinished
-  // go into db
-  // change challenges
-  console.log('finish challenge')
-});
-
-
-// *** COMPLETE TROV **
-
-server.post('/', function(req, res) {
-  // info posted: trovFinished
-  // go into db
-  // change trovs
-  console.log('complete trov')
-});
-
 
 // *** ADD USER **
-
-server.post('https://localhost:3000/addnewusertodb', function(req, res) {
+server.post('/addnewusertodb', function(req, res) {
   // req.body.username
   var newUser = req.body.username;
   var email = req.body.email;

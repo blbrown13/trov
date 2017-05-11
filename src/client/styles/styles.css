@@ -67,19 +67,34 @@ body {
   font-style: normal;
   font-weight: 700;
 }
-#troves{
-}
-#troves h1, #visitormain h1 {
+.troves h1, #visitormain h1, #auth h1 {
   font-size: 3em;
   font-family: "Gotham A", "Gotham B";
   font-style: normal;
   font-weight: 700;
 }
-.quest p, .quest li {
+#visitormain h1, #auth h1 {
+  text-align: center;
+}
+#visitormain h2 {
+  text-align: center;
+}
+#auth {
+  position: absolute;
+  left: 270px; top: 92px; right: 0px;
+  margin-top: 7.5em;
+  text-align: center;
+}
+.quest li {
   font-family: "Whitney SSm A", "Whitney SSm B";
   font-style: normal;
   font-weight: 500;
   font-size: 1.25em;
+  list-style: none;
+  text-indent: -1.25em;
+}
+.quest li:before {
+  content: '★ ';
 }
 #visitormain, #trovmain {
   position: absolute;
@@ -87,3 +102,14 @@ body {
   padding-left: 40px;
   left:270px; top:92px; right:0; bottom:0;
 }
+#fb-button {
+  width: 20em;
+  margin: auto;
+  margin-top: 5em;
+}
+.hint {
+  color: gray;
+}
+/*#trovcard {
+  width: 200px;
+}*/

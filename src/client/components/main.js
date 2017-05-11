@@ -51,7 +51,7 @@ class Main extends React.Component {
           isOnTrovNow: false,
           currentTrov: null,
           currentChallengeNum: 0
-        })        
+        })
       } else {
         var newCurrentChallengeNum = this.state.currentChallengeNum+1;
         this.setState({
@@ -69,19 +69,21 @@ class Main extends React.Component {
       currentChallengeNum: 0
     })
   }
- 
+
 
   render() {
     // conditional renders here . . . ie if statements, will check isLoggedIn and isOnTrovNow
     if (!this.state.isLoggedIn) {
       return <VisitorMain />
     } if (!this.state.isOnTrovNow && this.state.isLoggedIn) {
-      return <UserNoTrovMain 
-        allTrovs={this.state.allTrovs}
-        handleSelectTrov={this.handleSelectTrov.bind(this)}
-      />
+      return (<div>
+          <UserNoTrovMain />
+            allTrovs={this.state.allTrovs}
+            handleSelectTrov={this.handleSelectTrov.bind(this)}
+            <button onClick={this.getAllTrovs.bind(this)}>Test Yer Get</button>
+            </div>)
     } else if (this.state.isOnTrovNow && this.state.isLoggedIn) {
-      return <TrovMain 
+      return <TrovMain
         currentTrov={this.state.currentTrov}
         currentChallengeNum={this.state.currentChallengeNum}
         handleCompleteChallenge={this.handleCompleteChallenge.bind(this)}
@@ -126,7 +128,7 @@ class Main extends React.Component {
     var newTrovArray;
     axios.get('http://localhost:3000/getalltrovs')
       .then(function(trovArray) {
-        newTrovArray = trovArray;
+        newTrovArray = JSON.parse(trovArray);
         console.log('getAllTrovs returns newTrovArray: ', newTrovArray);
     })
     this.setState({
@@ -139,13 +141,11 @@ class Main extends React.Component {
       trovName: trovName,
       currentChallengeNum: currentChallengeNum
     }
-    axios.post('http://localhost:3000/updateUserTrov', updatedTrovInfo)
+    axios.post('http://localhost:3000/updateusertrov', updatedTrovInfo)
       .then(function() {
         console.log('user trov data updated');
       })
-
   }
-
 
 }
 
