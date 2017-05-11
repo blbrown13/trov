@@ -24,7 +24,11 @@
     "google-map-react": "^0.24.0",
     "jquery": "^3.2.1",
     "morgan": "^1.8.1",
+    "mysql": "^2.13.0",
     "nodemon": "^1.11.0",
+    "passport": "^0.3.2",
+    "passport-facebook": "^2.1.1",
+    "passport-local": "^1.0.0",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "webpack": "^2.4.1"
