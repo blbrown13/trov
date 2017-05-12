@@ -7,9 +7,8 @@ var LocalStrategy = require('passport-local').Strategy;
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var favicon = require('favicon'); //use this to add icon to webpage
-// var cors = require('express-cors');
+var cors = require('express-cors');
 require('./src/config/passport.js')(passport);
-
 
 // app.use(cors({
 //   allowedOrigins: [
@@ -43,38 +42,37 @@ app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Origin', req.headers.origin);
   res.header('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
   // res.header('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header("Access-Control-Allow-Headers", "*");
   next();
 });
 
 
-
 app.use('/', server);
-
 
 // serving client files
 app.use(express.static('src/client'));
 
 // ********************************************************************
 
-app.get('/logout', function(req, res) {
-  console.log('* /logout route called *');
-  req.logout();
-  res.redirect('/');
-});
-
-app.post('/login', passport.authenticate('local-login', {
-  successRedirect: '/profile',
-  failureRedirect: '/login',
-  failureFlash: true,
-}));
-
-app.options('/auth/facebook', function(req, res) {
-  res.end();
-});
-
-// app.get('/handleFacebookAuth',  passport.authenticate('facebook', { scope: 'email' }));
+// app.get('/logout', function(req, res) {
+//   console.log('* /logout route called *');
+//   req.logout();
+//   res.redirect('/');
+// });
 //
+// app.post('/login', passport.authenticate('local-login', {
+//   successRedirect: '/profile',
+//   failureRedirect: '/login',
+//   failureFlash: true,
+// }));
+
+// app.options('/auth/facebook', function(req, res) {
+//   res.end();
+// });
+
+app.get('/auth/facebook',  passport.authenticate('facebook', { scope: 'email' }));
+
 // app.get('/auth/facebook',
 //   passport.authenticate('facebook', { scope: 'email' }),
 //   function(req, res){
@@ -85,22 +83,22 @@ app.options('/auth/facebook', function(req, res) {
 //   }
 // );
 //
-// app.get('/auth/facebook/callback', passport.authenticate('facebook', {
-//   successRedirect: '/',     // '/profile'
-//   failureRedirect: '/',
-// }));
+app.get('/auth/facebook/callback', passport.authenticate('facebook', {
+  successRedirect: '/',     // '/profile'
+  failureRedirect: '/'
+}));
 
-app.get('/auth/facebook',
-  passport.authenticate('facebook')
-);
-
-app.get('/auth/facebook/callback',
-  passport.authenticate('facebook', { failureRedirect: '/login' }),
-  function(req, res) {
-    // Successful authentication, redirect home.
-    res.redirect('/');
-  }
-);
+// app.get('/auth/facebook',
+//   passport.authenticate('facebook')
+// );
+//
+// app.get('/auth/facebook/callback',
+//   passport.authenticate('facebook', { failureRedirect: '/login' }),
+//   function(req, res) {
+//     // Successful authentication, redirect home.
+//     res.redirect('/');
+//   }
+// );
 
 
 function isLoggedIn(req, res, next) {
@@ -108,8 +106,6 @@ function isLoggedIn(req, res, next) {
       return next();
   res.redirect('/');
 }
-
-
 
 
 module.exports = app;

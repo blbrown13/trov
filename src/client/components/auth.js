@@ -5,12 +5,10 @@ var axios = require('axios');
 class Auth extends React.Component {
 
   handleLogInButtonClick() {
-    axios({
-      url: 'localhost:3000/auth/facebook',
-      headers: {"Access-Control-Allow-Origin": "*"}
-    });
-
-    
+    // axios.({
+    //   url: 'localhost:3000/auth/facebook',
+    //   headers: {"Access-Control-Allow-Origin": "*"}
+    // });
   }
 
   render () {

@@ -7,6 +7,7 @@ import Sidebar from './sidebar';
 import Main from './main.js';
 import Footer from './footer.js';
 var axios = require('axios');
+
 var $ = require('jquery');
 
 class App extends React.Component {
@@ -17,12 +18,26 @@ class App extends React.Component {
       username: "",
     }
   }
+
   handleLogIn () {
 
-    axios({
+    axios.get({
       url: 'http://localhost:3000/auth/facebook',
-      headers: {"Access-Control-Allow-Origin": "*"}
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    }).then(response => {
+      console.log('axios /auth/facebook');
+    }).catch((error) => {
+      console.log('AXIOS ERROR: ', error);
     });
+
+
+    // axios.get('http://localhost:3000/auth/facebook')
+    //   .then(function() {
+    //     console.log('axios /auth/facebook');
+    //   })
 
     // $.ajax({
     //   type: 'GET',
@@ -40,21 +55,6 @@ class App extends React.Component {
     //   },
     //   error: function() {
     //     console.log('inside ajax: failing GET');
-    //   }
-    // });
-
-    // $.ajax({
-    //   url: 'http://api.example.com/users/get',
-    //   type: 'POST',
-    //   headers: {
-    //     'name-api-key':'ewf45r4435trge',
-    //     'Content-Type':'application/x-www-form-urlencoded'
-    //   },
-    //   data: {
-    //     'uid':36,
-    //   },
-    //   success: function(data) {
-    //     console.log(data);
     //   }
     // });
 
@@ -81,12 +81,12 @@ class App extends React.Component {
   }
   render () {
     return (
-    <div id="main">
-      <Header username={this.state.username} login={this.handleLogIn} logout={this.handleLogOut} />
-      <Main loggedIn={this.state.isLoggedIn}/>
-      <Sidebar loggedIn={this.state.isLoggedIn} login={this.handleLogIn.bind(this)} logout={this.handleLogOut.bind(this)} />
-      <Footer />
-    </div>
+      <div id="main">
+        <Header username={this.state.username} login={this.handleLogIn} logout={this.handleLogOut} />
+        <Main loggedIn={this.state.isLoggedIn}/>
+        <Sidebar loggedIn={this.state.isLoggedIn} login={this.handleLogIn.bind(this)} logout={this.handleLogOut.bind(this)} />
+        <Footer />
+      </div>
     )
   }
 }
