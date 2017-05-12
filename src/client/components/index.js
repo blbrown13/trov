@@ -21,18 +21,42 @@ class App extends React.Component {
 
   handleLogIn () {
 
-    axios.get({
-      url: 'http://localhost:3000/auth/facebook',
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Content-Type': 'application/x-www-form-urlencoded'
-      }
-    }).then(response => {
-      console.log('axios /auth/facebook');
-    }).catch((error) => {
-      console.log('AXIOS ERROR: ', error);
-    });
+    // axios.get({
+    //   url: 'http://localhost:3000/auth/facebook',
+    //   headers: {
+    //     'Access-Control-Allow-Origin': '*',
+    //     'Content-Type': 'application/x-www-form-urlencoded'
+    //   }
+    // }).then((response) => {
+    //   console.log('AXIOS REQ: /auth/facebook');
+    // }).catch((error) => {
+    //   console.log('AXIOS ERROR: ', error);
+    // });
 
+    // axios.get('/auth/facebook')
+    //   .then(function(response) {
+    //     console.log('AXIOS');
+    //   })
+    //   .catch(function (error) {
+    //     console.log('ERROR', error);
+    //   });
+
+  // axios.get('/auth/facebook')
+  //   .catch(function (error) {
+  //   if (error.response) {
+  //     // The request was made, but the server responded with a status code
+  //     // that falls out of the range of 2xx
+  //     console.log(error.response.data);
+  //     console.log(error.response.status);
+  //     console.log(error.response.headers);
+  //   } else {
+  //     // Something happened in setting up the request that triggered an Error
+  //     console.log('Error', error.message);
+  //   }
+  //   console.log(error.config);
+  // });
+
+    // 'Content-Type': 'application/x-www-form-urlencode'
 
     // axios.get('http://localhost:3000/auth/facebook')
     //   .then(function() {
@@ -41,11 +65,11 @@ class App extends React.Component {
 
     // $.ajax({
     //   type: 'GET',
-    //   url: 'https://localhost:3000/auth/facebook',
+    //   url: 'http://localhost:3000/auth/facebook',
     //   // dataType:'json',
     //   headers: {
-    //     'Access-Control-Allow-Origin': 'localhost:3000',
-    //     'Content-Type': 'multipart/form-data'
+    //     'Access-Control-Allow-Origin': '*',
+    //     'Content-Type': 'application/x-www-form-urlencoded'
     //   },
     //   data: {
     //     'uid':36,
