@@ -1,8 +1,18 @@
 import React from 'react';
 import {render} from 'react-dom';
+import {Troves} from '../trov/troves.js';
 
+class UserNoTrovMain extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      allTrovs: []
+    }
+  }
+  // componentWillReceiveProps (newProps) {
+  //   this.setState({allTrovs: newProps.allTrovs});
+  // }
 
-export class UserNoTrovMain extends React.Component {
   render () {
     return (
     <div className="troves">
@@ -12,4 +22,7 @@ export class UserNoTrovMain extends React.Component {
     </div>
     )
   }
+  // <Troves allTrovs={this.state.allTrovs} />
 }
+
+export default UserNoTrovMain;

@@ -20,16 +20,14 @@ class App extends React.Component {
   }
 
   handleLogIn () {
-    // var that = this;
-    // console.log('Logging In');
-    // //will need to check if there is a current session, if so:
-    // this.setState({
-    //   isLoggedIn: true,
-    //   username: "Jake",
-    // }, function () {
-    //   console.log(this);
-    //   console.log(this.state.isLoggedIn);
-    // });
+    //will need to check if there is a current session, if so:
+    this.setState({
+      isLoggedIn: true,
+      username: window.username,
+    }, function () {
+      console.log(this);
+      console.log(this.state.isLoggedIn);
+    });
   }
   handleLogOut () {
     var that = this;

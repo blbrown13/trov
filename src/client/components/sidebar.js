@@ -8,7 +8,6 @@ class Sidebar extends React.Component {
     this.state = {
       isLoggedIn: this.props.loggedIn,
     }
-    console.log("Sidebar Logged In? " + this.props.loggedIn);
   }
 
   componentWillReceiveProps(newProps) {

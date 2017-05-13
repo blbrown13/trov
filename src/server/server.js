@@ -8,6 +8,8 @@ server.use(function(req, res, next) {
   next();
 });
 
+// db.connection.query(`DROP DATABASE trov;`); // <--- comment in to reset database
+
 // creating tables in database
 db.connection.query(`CREATE DATABASE IF NOT EXISTS trov;`);
 db.connection.query(`USE trov;`);
@@ -17,24 +19,23 @@ db.connection.query(`CREATE TABLE IF NOT EXISTS users (
   facebookId VARCHAR(100) UNIQUE,
   email VARCHAR(75) UNIQUE,
   isLoggedIn BOOL,
-  currentChallengeNum INT NULL 
+  currentChallengeNum INT NULL
 );`);
 db.connection.query(`CREATE TABLE IF NOT EXISTS trovs (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(50) UNIQUE,
-  createdBy INT,
+  createdBy VARCHAR(50),
   numberOfUsers VARCHAR(10),
   currentProgress INT,
   challenges VARCHAR(50)
 );`);
 db.connection.query(`CREATE TABLE IF NOT EXISTS users_trovs (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  userId INT,
-  trovId INT,
-  currentChallenge INT,
-  totalChallenges INT,
-  FOREIGN KEY (userId) REFERENCES users(id),
-  FOREIGN KEY (trovId) REFERENCES trovs(id)
+  userId VARCHAR(50),
+  trovId VARCHAR(50),
+  isCurrentTrov BOOL DEFAULT false,
+  currentChallengeNo INT,
+  totalChallengesNo INT
 );`);
 db.connection.query(`CREATE TABLE IF NOT EXISTS challenges (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -53,10 +54,9 @@ server.get('/getalltrovs', function(req, res) {
   db.connection.query(`SELECT * FROM trovs;`,
     function(error, result) {
       if(error) {
-        console.log("Error querying")
-        console.log(error)
+        console.log("Error querying database (/getalltrovs)");
       } else {
-        console.log("Success querying")
+        console.log("Success querying");
         // console.log(result);
         AllTrovs = JSON.stringify(result);
         res.end(AllTrovs);
@@ -68,15 +68,14 @@ server.get('/getalltrovs', function(req, res) {
 // *** UPDATE TROVE FROM DB **
 server.post('/updateusertrov', function(req, res) {
   var trovName = req.body.trovName;
-  var currChall = req.body.currentChallengeNum;
-
+  var currentChallengeNum = req.body.currentChallengeNum;
   db.connection.query(`use trov`);
-  db.connection.query(`UPDATE trovs SET currentProgress = ${currChall} WHERE name = "${trovName}";`,
+  db.connection.query(`UPDATE trovs SET currentProgress = ${currentChallengeNum} WHERE name = "${trovName}";`,
     function(error, result) {
       if(error) {
-        console.log("Error querying")
+        console.log("Error querying database (/updateusertrov)");
       } else {
-        console.log("Success updating trov!")
+        console.log(`Success updating trov: ${trovName}`);
       }
     }
   )
@@ -85,30 +84,47 @@ server.post('/updateusertrov', function(req, res) {
 
 // *** ADD USER **
 server.post('/addnewusertodb', function(req, res) {
-  // req.body.username
   var newUser = req.body.username;
+  var username = req.body.username;
   var facebookId = req.body.facebookId;
   var email = req.body.email;
-
   db.connection.query(`use trov`);
-  db.connection.query(`SELECT * FROM users WHERE username = "${newUser}";`,
+  db.connection.query(`SELECT * FROM users WHERE username = "${username}";`,
     function(error, result) {
       if(error) {
-        console.log("Error querying")
+        console.log("Error querying database (/addnewusertodb)")
       } else {
         if (result.length === 0) {
-          // username doesn't exist
-          console.log("User doesn't exist!")
           db.connection.query(`use trov`);
           db.connection.query(`INSERT INTO users (username, facebookId, email, isLoggedIn) VALUES ("${newUser}", "${facebookId}", "${email}", true)`);
+          console.log(`User "${username}" doesn't yet exist. Added user to database`)
         } else {
-          console.log("User exists!")
-          // username already exist
+          console.log(`User "${username}" already exists in database!`);
         }
       }
     }
   )
   res.end();
+});
+
+// *** GET USER'S CURRENT TROVE **
+server.get('/getuserdata', function(req, res) {
+  var trovData;
+  db.connection.query(`use trov`);
+  db.connection.query(`SELECT * FROM users_trovs WHERE isCurrentTrov = true;`,
+    function(error, result) {
+      if(error) {
+        console.log("Error querying database (/getuserdata)");
+      } else {
+        if (result.length !== 0) {
+          trovData = JSON.stringify(result);
+          res.end(trovData);
+        } else {
+          console.log(`User not currently on a trove!`);
+        }
+      }
+    }
+  )
 });
 
 module.exports = server;
