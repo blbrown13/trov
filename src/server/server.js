@@ -15,7 +15,9 @@ db.connection.query(`CREATE TABLE IF NOT EXISTS users (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   username VARCHAR(50) UNIQUE,
   facebookId VARCHAR(100) UNIQUE,
-  email VARCHAR(75) UNIQUE
+  email VARCHAR(75) UNIQUE,
+  isLoggedIn BOOL,
+  currentChallengeNum INT NULL 
 );`);
 db.connection.query(`CREATE TABLE IF NOT EXISTS trovs (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -85,6 +87,7 @@ server.post('/updateusertrov', function(req, res) {
 server.post('/addnewusertodb', function(req, res) {
   // req.body.username
   var newUser = req.body.username;
+  var facebookId = req.body.facebookId;
   var email = req.body.email;
 
   db.connection.query(`use trov`);
@@ -97,7 +100,7 @@ server.post('/addnewusertodb', function(req, res) {
           // username doesn't exist
           console.log("User doesn't exist!")
           db.connection.query(`use trov`);
-          db.connection.query(`INSERT INTO users (username, email) VALUES ("${newUser}", "${email}")`);
+          db.connection.query(`INSERT INTO users (username, facebookId, email, isLoggedIn) VALUES ("${newUser}", "${facebookId}", "${email}", true)`);
         } else {
           console.log("User exists!")
           // username already exist
