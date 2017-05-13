@@ -2,8 +2,8 @@ import React from 'react';
 import {render} from 'react-dom';
 import axios from 'axios';
 import {VisitorMain} from './visitormain.js';
-import {UserNoTrovMain} from './usernotrov/usernotrovmain.js';
-import {TrovMain} from './trov/trovmain.js';
+import UserNoTrovMain from './trov/usernotrovmain.js';
+import {Troves} from './trov/troves.js';
 import {Map} from './map.js'
 import testTrov from './exampleTrovData.js';
 
@@ -13,12 +13,13 @@ class Main extends React.Component {
     super(props);
     this.state = {
       isLoggedIn: false,
-      isOnTrovNow: false,
+      isOnTrovNow: true,
+      username: '',
       allTrovs: [],
       currentTrov: null,
       currentChallengeNum: 0
     }
-    console.log("Main Logged In? " + this.props.loggedIn);
+    this.getAllTrovs();
   }
 
   componentWillReceiveProps(newProps) {
@@ -26,7 +27,6 @@ class Main extends React.Component {
   }
 
   componentWillMount() {
-
     navigator.geolocation.getCurrentPosition(function(ps) {
       window.loc = ps;
       console.log('loc: ', ps);
@@ -34,7 +34,6 @@ class Main extends React.Component {
   }
 
   handleSelectTrov () { //how to insert trov as parameter???
-    console.log('handleSelectTrov');
     if (this.state.isLoggedIn) {
       this.setState({
         isOnTrovNow: true,
@@ -44,7 +43,6 @@ class Main extends React.Component {
   }
 
   handleCompleteChallenge () {
-    console.log('handleCompleteChallenge');
     if (this.state.currentTrov && this.state.isLoggedIn) {
       if (this.state.currentChallengeNum >= this.state.currentTrov.challenges.length-1) {
         this.setState({
@@ -75,41 +73,12 @@ class Main extends React.Component {
     // conditional renders here . . . ie if statements, will check isLoggedIn and isOnTrovNow
     if (!this.state.isLoggedIn) {
       return <VisitorMain />
-    } if (!this.state.isOnTrovNow && this.state.isLoggedIn) {
-      return (<div>
-          <UserNoTrovMain />
-            allTrovs={this.state.allTrovs}
-            handleSelectTrov={this.handleSelectTrov.bind(this)}
-            <button onClick={this.getAllTrovs.bind(this)}>Test Yer Get</button>
-            </div>)
+    } else if (!this.state.isOnTrovNow && this.state.isLoggedIn) {
+      return <UserNoTrovMain allTrovs={this.state.allTrovs}/>
     } else if (this.state.isOnTrovNow && this.state.isLoggedIn) {
-      return <TrovMain
-        currentTrov={this.state.currentTrov}
-        currentChallengeNum={this.state.currentChallengeNum}
-        handleCompleteChallenge={this.handleCompleteChallenge.bind(this)}
-        handleCompleteTrov={this.handleCompleteTrov.bind(this)}
-      />
+      return <Troves />
     }
   }
-    // TEST AREA: delete me if not needed
-
-  //   return (
-  //
-  //     <div id="trovmain">
-  //       <h1>test buttons</h1>
-  //       <div>currentTrov: {this.state.currentTrov ? this.state.currentTrov.name : 'none'} </div>
-  //       <div>currentChallengeNum: {this.state.currentChallengeNum}</div>
-  //       <button onClick={this.handleSelectTrov.bind(this)}>Select Trov (testTrov)</button>
-  //       <button onClick={this.handleCompleteChallenge.bind(this)}>Complete Challenge</button>
-  //       <button onClick={this.handleCompleteTrov.bind(this)}>Complete Trov</button>
-  //       <div><Map /></div>
-  //       <div>[GoogleMap goes here]</div>
-  //       <div id='visitor-main'>{this._renderVisitorMain()}</div>
-  //       <div id='user'>{this._renderUser()}</div>
-  //     </div>
-  //   )
-  // }
-  //
 
 
   addNewUserToDB (username, email, location) {
@@ -125,15 +94,16 @@ class Main extends React.Component {
   }
 
   getAllTrovs () {
-    var newTrovArray;
+    var context = this;
     axios.get('http://localhost:3000/getalltrovs')
       .then(function(trovArray) {
-        newTrovArray = JSON.parse(trovArray);
-        console.log('getAllTrovs returns newTrovArray: ', newTrovArray);
+        context.setState({
+          allTrovs: trovArray.data,
+        });
     })
-    this.setState({
-      allTrovs: newTrovArray
-    })
+    .catch(function(error) {
+        console.log('Unable to communicate with server', error);
+    });
   }
 
   updateUserTrov (trovName, currentChallengeNum) {

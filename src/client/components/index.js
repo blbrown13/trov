@@ -21,7 +21,7 @@ class App extends React.Component {
     //will need to check if there is a current session, if so:
     this.setState({
       isLoggedIn: true,
-      username: "Jake",
+      username: window.username,
     }, function () {
       console.log(this);
       console.log(this.state.isLoggedIn);
