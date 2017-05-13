@@ -17,7 +17,9 @@ db.connection.query(`CREATE TABLE IF NOT EXISTS users (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   username VARCHAR(50) UNIQUE,
   facebookId VARCHAR(100) UNIQUE,
-  email VARCHAR(75) UNIQUE
+  email VARCHAR(75) UNIQUE,
+  isLoggedIn BOOL,
+  currentChallengeNum INT
 );`);
 db.connection.query(`CREATE TABLE IF NOT EXISTS trovs (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
