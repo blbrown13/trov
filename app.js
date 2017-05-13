@@ -1,7 +1,6 @@
 var express = require("express");
 var app = express();
 var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
 
 // middleware
 var morgan = require('morgan');
@@ -43,6 +42,18 @@ app.get('/auth/facebook/callback', passport.authenticate('facebook', {
   successRedirect: '/', // '/profile'
   failureRedirect: '/'
 }));
+
+// app.get('/auth/facebook',
+//   passport.authenticate('facebook'));
+
+// app.get('/auth/facebook/callback',
+//   passport.authenticate('facebook', { failureRedirect: '/' }),
+//   function(req, res) {
+//
+//     res.redirect('/');
+//   }
+// );
+
 
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated())
