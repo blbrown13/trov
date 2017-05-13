@@ -11,8 +11,6 @@ body {
 #sidebar {
   position:absolute;
   padding-top: 20px;
-  padding-right: 35px;
-  padding-right: 35px;
   text-align: center;
   background-color: #FF7F50;
   left:0; top:92px; bottom: 0;
@@ -56,7 +54,7 @@ body {
   margin-left: 270px;
 }
 #trov {
-  padding-left: 20px;
+  /*padding-left: 20px;*/
   font-family: "Gotham A", "Gotham B";
   font-style: normal;
   font-weight: 700;
@@ -72,6 +70,12 @@ body {
   font-family: "Gotham A", "Gotham B";
   font-style: normal;
   font-weight: 700;
+}
+.troves p {
+  font-size: 1.25em;
+  text-indent: 20px;
+  font-family: "Whitney SSm A", "Whitney SSm B";
+  font-weight: 500;
 }
 #visitormain h1, #auth h1 {
   text-align: center;
@@ -96,11 +100,12 @@ body {
 .quest li:before {
   content: '★ ';
 }
-#visitormain, #trovmain {
+#visitormain, #trovmain, .troves{
   position: absolute;
   padding-top: 20px;
   padding-left: 40px;
-  left:270px; top:92px; right:0; bottom:0;
+  left:270px;
+  top:92px;
 }
 #fb-button {
   width: 20em;

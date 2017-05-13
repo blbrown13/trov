@@ -2,6 +2,9 @@
   <head>
     <meta charset="utf-8">
     <title>Trov</title>
+    <link rel="icon"
+      type="image/png"
+      href="../images/favicon.png">
     <link rel="stylesheet" type="text/css" href="https://cloud.typography.com/6879492/6920172/css/fonts.css" />
     <link rel="stylesheet" type="text/css" href="styles/styles.css">
     <link rel="stylesheet" type="text/css" href="styles/bootstrap-social.css">
@@ -53,7 +56,6 @@
           // Browser doesn't support Geolocation
           handleLocationError(false, infoWindow, map.getCenter());
         }
-
       }
 
       function handleLocationError(browserHasGeolocation, infoWindow, pos) {
@@ -63,6 +65,10 @@
                               'Error: Your browser doesn\'t support geolocation.');
         infoWindow.open(map);
       }
+    </script>
+    <script>
+      var username = prompt('Enter your name: ');
+      var email = prompt('Enter your e-mail');
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZerHbGeTMHQaBTQRJJ7d4jxq7iPwWyS8&callback=initMap"
     async defer>
