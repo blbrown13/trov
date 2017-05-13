@@ -18,6 +18,14 @@ module.exports = {
       latitude: 39.517198,
       longitude: -119.885901,
       reward: 'A free burger'
+    },
+    {
+      name: "Brandon's Apartment",
+      hint: 'A bachelor pad in Berkeley',
+      challengeNum: 2,
+      latitude: 37.871363,
+      longitude: -122.279644,
+      reward: 'A free yogurt'
     }
   ]
 

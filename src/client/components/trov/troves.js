@@ -5,8 +5,8 @@ const challenges = require('./missionmeltdown.js');
 const tahoe = require('./tahoe.js');
 
 class Troves extends React.Component {
-  constructor (props) {
-    super(props);
+  constructor () {
+    super();
   }
   // componentWillReceiveProps (newProps){
   //   this.setState({

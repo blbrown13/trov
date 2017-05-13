@@ -6,16 +6,14 @@ export default class Trov extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
-      currentChallengeNum: 0,
+      currentChallengeNum: 2,
       userLat: 0.00,
       userLong: 0.00,
     }
   }
   completeChallenge() {
-    currentChallengeNum = this.state.currentChallengeNum;
-    currentChallengeNum++;
     this.setState({
-      currentChallengeNum: currentChallengeNum
+      currentChallengeNum: 3
     });
   }
 
@@ -24,7 +22,6 @@ export default class Trov extends React.Component {
     var trovContext = this;
     var userLat;
     var userLong;
-
 
     navigator.geolocation.getCurrentPosition(function(position){
       userLat = position.coords.latitude.toFixed(2);

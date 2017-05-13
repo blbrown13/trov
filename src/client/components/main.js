@@ -3,7 +3,7 @@ import {render} from 'react-dom';
 import axios from 'axios';
 import {VisitorMain} from './visitormain.js';
 import UserNoTrovMain from './trov/usernotrovmain.js';
-import {Troves} from './trov/troves.js';
+import Troves from './trov/troves.js';
 import {Map} from './map.js'
 import testTrov from './exampleTrovData.js';
 
