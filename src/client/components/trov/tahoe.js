@@ -1,5 +1,5 @@
 module.exports = {
-  name: 'Tahoe',
+  name: 'Tahoe Trek',
   createdBy: 'Team Trov',
   numberOfUsers: 0,
   challenges: [

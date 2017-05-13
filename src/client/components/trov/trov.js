@@ -1,6 +1,7 @@
 import React from 'react';
 import render from 'react-dom';
 import Quest from './quest.js';
+import Map from '../map.js';
 
 export default class Trov extends React.Component {
   constructor (props) {
@@ -12,8 +13,9 @@ export default class Trov extends React.Component {
     }
   }
   completeChallenge() {
+    var completed = this.state.currentChallengeNum + 1;
     this.setState({
-      currentChallengeNum: 3
+      currentChallengeNum: completed
     });
   }
 
@@ -53,6 +55,7 @@ export default class Trov extends React.Component {
         {this.renderChallenges()}
       </ul>
       <button type="button" className="btn" onClick={this.alertGeoCoords.bind(this)}>Complete Challenge</button>
+      <Map />
     </div>
     )
   }

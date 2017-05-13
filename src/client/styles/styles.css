@@ -11,6 +11,7 @@ body {
 #sidebar {
   position:absolute;
   padding-top: 20px;
+  margin: auto;
   text-align: center;
   background-color: #FF7F50;
   left:0; top:92px; bottom: 0;
@@ -100,7 +101,7 @@ body {
 .quest li:before {
   content: '★ ';
 }
-#visitormain, #trovmain, .troves{
+#visitormain, .troves{
   position: absolute;
   padding-top: 20px;
   padding-left: 40px;
@@ -112,6 +113,11 @@ body {
   margin: auto;
   margin-top: 5em;
 }
+#map {
+  height: 400px;
+  width: 400px;
+  z-index: 999;
+ }
 .hint {
   color: gray;
 }
