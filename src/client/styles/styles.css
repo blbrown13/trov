@@ -144,13 +144,7 @@ body {
 .quest li:before {
   content: '★ ';
 }
-<<<<<<< HEAD
-#visitormain, .troves{
-=======
-
-
 #trovmain, .troves{
->>>>>>> 19dc69671693c9bd5ea3d1b67d1853b56d916b0e
   position: absolute;
   padding-top: 20px;
   padding-left: 40px;
