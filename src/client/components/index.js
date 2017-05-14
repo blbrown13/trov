@@ -19,17 +19,30 @@ class App extends React.Component {
     }
   }
 
-  handleLogIn () {
-    //will need to check if there is a current session, if so:
-    this.setState({
-      isLoggedIn: true,
-      username: window.username,
-    }, function () {
-      console.log(this);
-      console.log(this.state.isLoggedIn);
+  componentWillMount () {
+    var context = this;
+    axios.get('http://localhost:3000/getcurrentuser')
+      .then(function(user) {
+        console.log('Searching for logged-in user...');
+        console.log(`USERDATA: ${user}`);
+        var userName = user.data;
+        console.log(`Current user: ${userName}`);
+        context.setState({
+          isLoggedIn: true,
+          username: userName
+        });
+    })
+    .catch(function(error) {
+        console.log('Unable to communicate with server', error);
     });
   }
+
+  handleLogIn () {
+
+  }
+
   handleLogOut () {
+    // add post req to logout user here
     var that = this;
     console.log('handleLogOut');
     that.setState({
@@ -40,6 +53,8 @@ class App extends React.Component {
     });
   }
   render () {
+    console.log(`isLoggedIn: ${this.state.isLoggedIn}`);
+    console.log(`username: ${this.state.username}`);
     return (
       <div id="main">
         <Header username={this.state.username} login={this.handleLogIn} logout={this.handleLogOut} />
