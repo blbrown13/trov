@@ -1,6 +1,7 @@
 var express = require('express');
 var server = express.Router();
-var db = require('./db.js')
+var db = require('./db.js');
+var url = require('url');
 
 // routing requests from app.js
 server.use(function(req, res, next) {
@@ -108,18 +109,28 @@ server.post('/addnewusertodb', function(req, res) {
   res.end();
 });
 
-// *** GET USER'S CURRENT TROVE **
+// *** GET USER'S CURRENT TROVE AND ALL CHALLENGES ASSOCIATED WITH THAT TROVE **
 server.get('/getuserdata', function(req, res) {
-  var trovData;
+  var resData = {};
+  var username = req.query.id || '';
   db.connection.query(`use trov`);
-  db.connection.query(`SELECT * FROM users_trovs WHERE isCurrentTrov = true;`,
+  db.connection.query(`SELECT * FROM users_trovs WHERE userId = "${username}";`,
     function(error, result) {
       if(error) {
         console.log("Error querying database (/getuserdata)");
       } else {
         if (result.length !== 0) {
-          trovData = JSON.stringify(result);
-          res.end(trovData);
+          resData.currTrov = result;
+          db.connection.query(`select * FROM challenges WHERE trov = (SELECT trovId FROM users_trovs WHERE userId = "${username}");`,
+            function(error, secondResult) {
+              if(error) {
+                console.log("Error querying database II (/getuserdata)");
+              } else {
+                resData.challenges = secondResult;
+                res.end(JSON.stringify(resData));
+              }
+            }
+          );
         } else {
           console.log(`User not currently on a trove!`);
           res.end("User not currently on a trove!");
@@ -155,5 +166,8 @@ server.get('/getuserdata', function(req, res) {
 // db.connection.query("INSERT INTO challenges (id, name, hint, challengeNum, latitude, longitude, reward, trov) VALUES (16, 'Westfield Mall', 'Very big mall in SF', 1, 37.783697, -122.408966, null, 'Hack Reactor Happiness');");
 // db.connection.query("INSERT INTO challenges (id, name, hint, challengeNum, latitude, longitude, reward, trov) VALUES (17, 'Freds Lecture Room', 'Place of learning', 2, 37.783697, -122.408966, null, 'Hack Reactor Happiness');");
 // db.connection.query("INSERT INTO challenges (id, name, hint, challengeNum, latitude, longitude, reward, trov) VALUES (18, 'HR Kitchen', 'Yummm food', 3, 37.783697, -122.408966, null, 'Hack Reactor Happiness');");
+// db.connection.query("INSERT INTO users_trovs (userId, trovId, isCurrentTrov, currentChallengeNo, totalChallengesNo) VALUES ('Brandon Lee Brown', 'Tahoe Trek', 0, 1, 3);");
+// db.connection.query("INSERT INTO users_trovs (userId, trovId, isCurrentTrov, currentChallengeNo, totalChallengesNo) VALUES ('Brandon Lee Brown', 'Tahoe Trek', 0, 2, 3);");
+// db.connection.query("INSERT INTO users_trovs (userId, trovId, isCurrentTrov, currentChallengeNo, totalChallengesNo) VALUES ('Brandon Lee Brown', 'Tahoe Trek', 1, 3, 3);");
 
 module.exports = server;
