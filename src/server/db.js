@@ -6,9 +6,9 @@ var app = express();
 // establish database connection
 var connection = mysql.createConnection({
   port     : 3306,
-  host     : 'localhost',
-  user     : 'root',
-  password : ''
+  host     : 'trov.cemgq7chalnt.us-west-1.rds.amazonaws.com',
+  user     : 'teamtrov',
+  password : 'teamtrov'
 });
 
 
