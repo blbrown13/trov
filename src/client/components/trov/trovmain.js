@@ -10,7 +10,6 @@ export class TrovMain extends React.Component {
   render () {
     return (
     <div id="trovmain">
-      <Troves />
     </div>
     )
   }

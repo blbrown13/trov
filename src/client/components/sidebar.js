@@ -14,14 +14,15 @@ class Sidebar extends React.Component {
   }
 
   renderLoginButton() {
-    if (!this.state.isLoggedIn) {
-      return (<a href="/auth/facebook">Log In</a>)
-    } else {
+    if (this.state.isLoggedIn) {
       return (<a href="/logoutuser">Log Out</a>)
     }
   }
 
   render () {
+
+    if (!this.state.isLoggedIn) {return null}
+
     return (
       <div id="sidebar">
         <ul>

@@ -31,7 +31,7 @@ class App extends React.Component {
     })
     .catch(function(error) {
       console.log('Unable to communicate with server', error);
-    });
+    }
   }
 
   handleLogIn () {
@@ -39,16 +39,17 @@ class App extends React.Component {
   }
 
   handleLogOut () {
-    // handled by /logoutuser server route and componentWillMount
+    // handled by componentWillMount
   }
 
   render () {
-    console.log(`isLoggedIn: ${this.state.isLoggedIn}`);
-    console.log(`username: ${this.state.username}`);
     return (
       <div id="main">
         <Header username={this.state.username} login={this.handleLogIn} logout={this.handleLogOut} />
-        <Main loggedIn={this.state.isLoggedIn}/>
+        <Main username={this.state.username} loggedIn={this.state.isLoggedIn}/>
+        <Main
+          handleLogIn={this.handleLogIn.bind(this)}
+          loggedIn={this.state.isLoggedIn}/>
         <Sidebar loggedIn={this.state.isLoggedIn} login={this.handleLogIn.bind(this)} logout={this.handleLogOut.bind(this)} />
         <Footer />
       </div>
