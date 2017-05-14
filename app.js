@@ -1,6 +1,7 @@
 var express = require("express");
 var app = express();
 var passport = require('passport');
+var cookieParser = require('cookie-parser');
 
 // middleware
 var morgan = require('morgan');
@@ -12,6 +13,7 @@ app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(cookieParser());
 
 // ports
 var port = process.env.PORT || 3000;
@@ -43,17 +45,25 @@ app.get('/auth/facebook/callback', passport.authenticate('facebook', {
   failureRedirect: '/'
 }));
 
-// app.get('/auth/facebook',
-//   passport.authenticate('facebook'));
+// logout passport strategy
+// app.get('/logout', function(req, res) {
+//   console.log("logging out!");
+//   req.logOut();
+//   req.session.destroy();
+//   res.redirect('/');
+// });
 
-// app.get('/auth/facebook/callback',
-//   passport.authenticate('facebook', { failureRedirect: '/' }),
-//   function(req, res) {
-//
-//     res.redirect('/');
+// logout with cookie delete
+// app.get('/logout', function(req, res){
+//   cookie = req.cookies;
+//   for (var prop in cookie) {
+//     if (!cookie.hasOwnProperty(prop)) {
+//       continue;
+//     }
+//     res.cookie(prop, '', {expires: new Date(0)});
 //   }
-// );
-
+//   res.redirect('/');
+// });
 
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated())
