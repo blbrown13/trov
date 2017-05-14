@@ -150,29 +150,29 @@ server.get('/getuserdata', function(req, res) {
   var username = req.query.id || '';
   db.connection.query(`use trov`);
   db.connection.query(`SELECT * FROM users_trovs WHERE userId = "${username}";`,
-    function(error, result) {
-      if(error) {
-        console.log("Error querying database (/getuserdata)");
-      } else {
-        if (result.length !== 0) {
-          resData.currTrov = result;
-          db.connection.query(`select * FROM challenges WHERE trov = (SELECT trovId FROM users_trovs WHERE userId = "${username}");`,
-            function(error, secondResult) {
-              if(error) {
-                console.log("Error querying database II (/getuserdata)");
-              } else {
-                resData.challenges = secondResult;
-                res.end(JSON.stringify(resData));
-              }
-            }
-          );
-        } else {
-          console.log(`User not currently on a trove!`);
-          res.end("User not currently on a trove!");
+  function(error, result) {
+    if(error) {
+      console.log("Error querying database (/getuserdata)");
+    } else {
+      if (result.length !== 0) {
+        resData.currTrov = result;
+        db.connection.query(`select * FROM challenges WHERE trov = (SELECT trovId FROM users_trovs WHERE userId = "${username}");`,
+        function(error, secondResult) {
+          if(error) {
+            console.log("Error querying database II (/getuserdata)");
+          } else {
+            resData.challenges = secondResult;
+            res.end(JSON.stringify(resData));
+          }
         }
-      }
+      );
+    } else {
+      console.log(`User not currently on a trove!`);
+      res.end("User not currently on a trove!");
     }
-  )
+  }
+}
+)
 });
 
 // *** INSERTS INFORMATION INTO DATABASE -----> COMMENT IN ONLY IF NOT ALREADY IN DB ***

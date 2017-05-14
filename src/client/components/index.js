@@ -8,8 +8,6 @@ import Main from './main.js';
 import Footer from './footer.js';
 var axios = require('axios');
 
-var $ = require('jquery');
-
 class App extends React.Component {
   constructor (props) {
     super(props);
@@ -22,36 +20,28 @@ class App extends React.Component {
   componentWillMount () {
     var context = this;
     axios.get('http://localhost:3000/getcurrentuser')
-      .then(function(user) {
-        console.log('Searching for logged-in user...');
-        console.log(`USERDATA: ${user}`);
-        var userName = user.data;
-        console.log(`Current user: ${userName}`);
-        context.setState({
-          isLoggedIn: true,
-          username: userName
-        });
+    .then(function(user) {
+      console.log('Searching for logged-in user...');
+      var userName = user.data;
+      console.log(`Current user: ${userName}`);
+      context.setState({
+        isLoggedIn: true,
+        username: userName
+      });
     })
     .catch(function(error) {
-        console.log('Unable to communicate with server', error);
+      console.log('Unable to communicate with server', error);
     });
   }
 
   handleLogIn () {
-
+    // handled by componentWillMount and DB query
   }
 
   handleLogOut () {
-    // add post req to logout user here
-    var that = this;
-    console.log('handleLogOut');
-    that.setState({
-      isLoggedIn: false,
-      username: "",
-    }, function () {
-      console.log(this.state.isLoggedIn);
-    });
+    // handled by /logoutuser server route and componentWillMount
   }
+
   render () {
     console.log(`isLoggedIn: ${this.state.isLoggedIn}`);
     console.log(`username: ${this.state.username}`);

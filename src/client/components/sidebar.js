@@ -1,7 +1,6 @@
 import React from 'react';
 import render from 'react-dom';
 
-
 class Sidebar extends React.Component {
   constructor(props) {
     super(props);
@@ -23,14 +22,13 @@ class Sidebar extends React.Component {
   }
 
   render () {
-
     return (
-    <div id="sidebar">
-    <ul>
-      <li>Account Settings</li>
-      <li>{this.renderLoginButton()}</li>
-    </ul>
-    </div>
+      <div id="sidebar">
+        <ul>
+          <li>Account Settings</li>
+          <li>{this.renderLoginButton()}</li>
+        </ul>
+      </div>
     )
   }
 }
