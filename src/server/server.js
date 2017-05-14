@@ -71,15 +71,15 @@ server.post('/updateusertrov', function(req, res) {
   var currentChallengeNum = req.body.currentChallengeNum;
   db.connection.query(`use trov`);
   db.connection.query(`UPDATE trovs SET currentProgress = ${currentChallengeNum} WHERE name = "${trovName}";`,
-    function(error, result) {
-      if(error) {
-        console.log("Error querying database (/updateusertrov)");
-      } else {
-        console.log(`Success updating trov: ${trovName}`);
-      }
+  function(error, result) {
+    if(error) {
+      console.log("Error querying database (/updateusertrov)");
+    } else {
+      console.log(`Success updating trov: ${trovName}`);
     }
-  )
-  res.end();
+  }
+)
+res.end();
 });
 
 // *** ADD USER **
@@ -90,54 +90,54 @@ server.post('/addnewusertodb', function(req, res) {
   var email = req.body.email;
   db.connection.query(`use trov`);
   db.connection.query(`SELECT * FROM users WHERE username = "${username}";`,
-    function(error, result) {
-      if(error) {
-        console.log("Error querying database (/addnewusertodb)")
+  function(error, result) {
+    if(error) {
+      console.log("Error querying database (/addnewusertodb)")
+    } else {
+      if (result.length === 0) {
+        db.connection.query(`use trov`);
+        db.connection.query(`INSERT INTO users (username, facebookId, email, isLoggedIn) VALUES ("${newUser}", "${facebookId}", "${email}", true)`);
+        console.log(`User "${username}" doesn't yet exist. Added user to database`)
       } else {
-        if (result.length === 0) {
-          db.connection.query(`use trov`);
-          db.connection.query(`INSERT INTO users (username, facebookId, email, isLoggedIn) VALUES ("${newUser}", "${facebookId}", "${email}", true)`);
-          console.log(`User "${username}" doesn't yet exist. Added user to database`)
-        } else {
-          console.log(`User "${username}" already exists in database!`);
-        }
+        console.log(`User "${username}" already exists in database!`);
       }
     }
-  )
-  res.end();
+  }
+)
+res.end();
 });
 
-// *** FIND LOGGED-IN USER
+// *** FIND LOGGED-IN USER ***
 server.get('/getcurrentuser', function(req, res) {
   db.connection.query(`use trov`);
   db.connection.query('SELECT username FROM users WHERE isLoggedIn = true;',
-    function(error, result) {
-      if(error) {
-        console.log("Error querying database (/getcurrentuser)");
-      } else {
-          if (result.length !== 0) {
-            console.log('\nUser is found!');
-            console.log(result[0].username);
-            res.end(result[0].username);
-          }
+  function(error, result) {
+    if(error) {
+      console.log("Error querying database (/getcurrentuser)");
+    } else {
+      if (result.length !== 0) {
+        console.log('\nUser is found!');
+        console.log(result[0].username);
+        res.end(result[0].username);
       }
     }
-  )
+  }
+)
 });
 
 // *** LOGOUT USER ***
 server.get('/logoutuser', function(req, res) {
   db.connection.query(`use trov`);
   db.connection.query('UPDATE users SET isLoggedIn=false WHERE isLoggedIn=true',
-    function(error, result) {
-      if(error) {
-        console.log("Error querying database (/logoutuser)");
-      } else {
-        console.log('User is logged out!');
-        res.redirect('/');
-      }
+  function(error, result) {
+    if(error) {
+      console.log("Error querying database (/logoutuser)");
+    } else {
+      console.log('User is logged out!');
+      res.redirect('/');
     }
-  )
+  }
+)
 });
 
 // *** GET USER'S CURRENT TROVE **
