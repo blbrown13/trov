@@ -121,6 +121,9 @@ body {
 .hint {
   color: gray;
 }
+.trov-completion {
+  color: green;
+}
 #visitormain {
   width: 100%;
   height: 67%;

@@ -47,19 +47,12 @@ class Main extends React.Component {
   }
 
   handleCompleteChallenge () {
-    if (this.state.currentTrov && this.state.isLoggedIn) {
-      if (this.state.currentChallengeNum >= this.state.currentTrov.challenges.length-1) {
-        this.setState({
-          isOnTrovNow: false,
-          currentTrov: null,
-          currentChallengeNum: 0
-        })
-      } else {
-        var newCurrentChallengeNum = this.state.currentChallengeNum+1;
-        this.setState({
-          currentChallengeNum: newCurrentChallengeNum
-        })
-      }
+    var completed = this.state.currentChallengeNum + 1;
+    this.setState({
+      currentChallengeNum: completed
+    });
+    if (completed === this.state.userTrovs.currTrov[0].totalChallengesNo) {
+      //Adjust state to prevent Trov component from rendering button
     }
   }
 
@@ -80,7 +73,10 @@ class Main extends React.Component {
     } else if (!this.state.isOnTrovNow && this.state.isLoggedIn) {
       return <UserNoTrovMain allTrovs={this.state.allTrovs}/>
     } else if (this.state.isOnTrovNow && this.state.isLoggedIn) {
-      return <Troves userTrovs={this.state.userTrovs} getUserData={this.getUserData.bind(this)}/>
+      return <Troves userTrovs={this.state.userTrovs}
+                     getUserData={this.getUserData.bind(this)}
+                     completeChallenge={this.handleCompleteChallenge.bind(this)}
+                     progress={this.state.currentChallengeNum} />
     }
   }
 
@@ -102,7 +98,7 @@ class Main extends React.Component {
     axios.get('http://localhost:3000/getalltrovs')
       .then(function(trovArray) {
         context.setState({
-          allTrovs: trovArray.data,
+          allTrovs: trovArray.data
         });
     })
     .catch(function(error) {
@@ -113,11 +109,11 @@ class Main extends React.Component {
   getUserData () {
     var context = this;
     var processedUsername = this.state.username.split(' ').join('+');
-    console.log(processedUsername);
     axios.get(`http://localhost:3000/getuserdata?id=${processedUsername}`)
       .then(function(userTrovArray) {
         context.setState({
           userTrovs: userTrovArray.data,
+          currentChallengeNum: userTrovArray.data.currTrov[0].currentChallengeNo
         });
     })
     .catch(function(error) {

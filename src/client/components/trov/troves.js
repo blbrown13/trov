@@ -10,7 +10,8 @@ class Troves extends React.Component {
     this.state = {
       userTrovs: '',
       challenges: [],
-      trovNames: 'Trov Name'
+      trovNames: 'Trov Name',
+      currentChallengeNum: this.props.progress
     }
     this.props.getUserData();
   }
@@ -18,14 +19,15 @@ class Troves extends React.Component {
     this.setState({
       userTrovs: newProps.userTrovs,
       challenges: newProps.userTrovs.challenges,
-      trovNames: newProps.userTrovs.currTrov[0].trovId
+      trovNames: newProps.userTrovs.currTrov[0].trovId,
+      currentChallengeNum: newProps.progress
     });
   }
   render () {
     return (
     <div className="troves">
       <h1>Your Troves</h1>
-      <Trov challenges={this.state.challenges} trovName={this.state.trovNames}/>
+      <Trov challenges={this.state.challenges} trovName={this.state.trovNames} completeChallenge={this.props.completeChallenge} progress={this.props.progress}/>
     </div>
     )
   }
