@@ -24,6 +24,8 @@ class Sidebar extends React.Component {
 
   render () {
 
+    if (!this.state.isLoggedIn) {return null}   
+
     return (
     <div id="sidebar">
     <ul>

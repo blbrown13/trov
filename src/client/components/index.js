@@ -39,7 +39,9 @@ class App extends React.Component {
     return (
     <div id="main">
       <Header username={this.state.username} login={this.handleLogIn} logout={this.handleLogOut} />
-      <Main loggedIn={this.state.isLoggedIn}/>
+      <Main 
+        handleLogIn={this.handleLogIn.bind(this)}
+        loggedIn={this.state.isLoggedIn}/>
       <Sidebar loggedIn={this.state.isLoggedIn} login={this.handleLogIn.bind(this)} logout={this.handleLogOut.bind(this)} />
       <Footer />
     </div>
