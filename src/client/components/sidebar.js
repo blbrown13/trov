@@ -18,7 +18,7 @@ class Sidebar extends React.Component {
     if (!this.state.isLoggedIn) {
       return (<a href="/auth/facebook">Log In</a>)
     } else {
-      return (<a onClick={this.props.logout}>Log Out</a>)
+      return (<a href="/logoutuser">Log Out</a>)
     }
   }
 
