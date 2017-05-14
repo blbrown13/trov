@@ -69,7 +69,9 @@ class Main extends React.Component {
   render() {
     // conditional renders here . . . ie if statements, will check isLoggedIn and isOnTrovNow
     if (!this.state.isLoggedIn) {
-      return <VisitorMain />
+      return <VisitorMain
+        handleLogIn={this.props.handleLogIn}
+      />
     } else if (!this.state.isOnTrovNow && this.state.isLoggedIn) {
       return <UserNoTrovMain allTrovs={this.state.allTrovs}/>
     } else if (this.state.isOnTrovNow && this.state.isLoggedIn) {
