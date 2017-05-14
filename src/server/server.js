@@ -15,9 +15,9 @@ db.connection.query(`CREATE DATABASE IF NOT EXISTS trov;`);
 db.connection.query(`USE trov;`);
 db.connection.query(`CREATE TABLE IF NOT EXISTS users (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  username VARCHAR(50) UNIQUE,
-  facebookId VARCHAR(100) UNIQUE,
-  email VARCHAR(75) UNIQUE,
+  username VARCHAR(50) NOT NULL UNIQUE,
+  facebookId VARCHAR(100) NOT NULL UNIQUE,
+  email VARCHAR(75) NOT NULL UNIQUE,
   isLoggedIn BOOL,
   currentChallengeNum INT NULL
 );`);
@@ -105,6 +105,39 @@ server.post('/addnewusertodb', function(req, res) {
     }
   )
   res.end();
+});
+
+// *** FIND LOGGED-IN USER
+server.get('/getcurrentuser', function(req, res) {
+  db.connection.query(`use trov`);
+  db.connection.query('SELECT username FROM users WHERE isLoggedIn = true;',
+    function(error, result) {
+      if(error) {
+        console.log("Error querying database (/getcurrentuser)");
+      } else {
+          if (result.length !== 0) {
+            console.log('\nUser is found!');
+            console.log(result[0].username);
+            res.end(result[0].username);
+          }
+      }
+    }
+  )
+});
+
+// *** LOGOUT USER ***
+server.get('/logoutuser', function(req, res) {
+  db.connection.query(`use trov`);
+  db.connection.query('UPDATE users SET isLoggedIn=false WHERE isLoggedIn=true',
+    function(error, result) {
+      if(error) {
+        console.log("Error querying database (/logoutuser)");
+      } else {
+        console.log('User is logged out!');
+        res.redirect('/');
+      }
+    }
+  )
 });
 
 // *** GET USER'S CURRENT TROVE **
