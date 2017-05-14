@@ -143,6 +143,7 @@ server.get('/logoutuser', function(req, res) {
 )
 });
 
+
 // *** GET USER'S CURRENT TROVE AND ALL CHALLENGES ASSOCIATED WITH THAT TROVE **
 server.get('/getuserdata', function(req, res) {
   var resData = {};
