@@ -20,9 +20,6 @@ class App extends React.Component {
     this.setState({
       isLoggedIn: true,
       username: window.username,
-    }, function () {
-      console.log(this);
-      console.log(this.state.isLoggedIn);
     });
   }
   handleLogOut () {
@@ -31,17 +28,19 @@ class App extends React.Component {
     that.setState({
       isLoggedIn: false,
       username: "",
-    }, function () {
-      console.log(this.state.isLoggedIn);
     });
   }
   render () {
     return (
     <div id="main">
       <Header username={this.state.username} login={this.handleLogIn} logout={this.handleLogOut} />
+<<<<<<< HEAD
+      <Main username={this.state.username} loggedIn={this.state.isLoggedIn}/>
+=======
       <Main 
         handleLogIn={this.handleLogIn.bind(this)}
         loggedIn={this.state.isLoggedIn}/>
+>>>>>>> 19dc69671693c9bd5ea3d1b67d1853b56d916b0e
       <Sidebar loggedIn={this.state.isLoggedIn} login={this.handleLogIn.bind(this)} logout={this.handleLogOut.bind(this)} />
       <Footer />
     </div>
