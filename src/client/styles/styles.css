@@ -3,6 +3,7 @@ body {
   margin: 0;
 }
 #header {
+  width: 100%;
   position: absolute;
   background-color: #FF7F50;
   left:0px; top:0px; right:0; bottom:92px;
@@ -71,15 +72,57 @@ body {
   font-style: normal;
   font-weight: 700;
 }
+
 .troves p {
   font-size: 1.25em;
   text-indent: 20px;
   font-family: "Whitney SSm A", "Whitney SSm B";
   font-weight: 500;
 }
-#visitormain h1, #auth h1 {
+
+#visitormain {
+  width: 100%;
+  height: 67%;
+  background-repeat: no-repeat;
+  background-image: url('../images/banner2.jpg');
+  background-size: cover;
+}
+
+#visitormain h1 {
+  color: white;
+  text-align: left;
+}
+
+#newloginbutton {
+  width: 25%;
+  height: 5%;
+  font-weight: 720;
+  vertical-align: center;
+  padding: 5px;
+  color: white;
+  position: absolute;
+  left: 37.5%;
+  top: 55%;
+}
+
+#newloginbutton div {
+  margin: 3%;
+  font-weight: 700;
+}
+
+
+#newloginbutton:hover {
+  cursor: pointer;
+}
+
+#thetrovstory {
+  margin: 20px;
+}
+
+#auth h1 {
   text-align: center;
 }
+
 #visitormain h2 {
   text-align: center;
 }
@@ -100,7 +143,9 @@ body {
 .quest li:before {
   content: '★ ';
 }
-#visitormain, #trovmain, .troves{
+
+
+#trovmain, .troves{
   position: absolute;
   padding-top: 20px;
   padding-left: 40px;
