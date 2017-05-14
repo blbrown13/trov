@@ -16,17 +16,21 @@ class Main extends React.Component {
       isOnTrovNow: true,
       username: '',
       allTrovs: [],
+      userTrovs: [],
       currentTrov: null,
       currentChallengeNum: 0
     }
-    this.getAllTrovs();
   }
 
   componentWillReceiveProps(newProps) {
-    this.setState({isLoggedIn: newProps.loggedIn});
+    this.setState({
+      isLoggedIn: newProps.loggedIn,
+      username: newProps.username
+    });
   }
 
   componentWillMount() {
+    this.getAllTrovs();
     navigator.geolocation.getCurrentPosition(function(ps) {
       window.loc = ps;
       console.log('loc: ', ps);
@@ -76,7 +80,7 @@ class Main extends React.Component {
     } else if (!this.state.isOnTrovNow && this.state.isLoggedIn) {
       return <UserNoTrovMain allTrovs={this.state.allTrovs}/>
     } else if (this.state.isOnTrovNow && this.state.isLoggedIn) {
-      return <Troves />
+      return <Troves userTrovs={this.state.userTrovs} getUserData={this.getUserData.bind(this)}/>
     }
   }
 
@@ -99,6 +103,21 @@ class Main extends React.Component {
       .then(function(trovArray) {
         context.setState({
           allTrovs: trovArray.data,
+        });
+    })
+    .catch(function(error) {
+        console.log('Unable to communicate with server', error);
+    });
+  }
+
+  getUserData () {
+    var context = this;
+    var processedUsername = this.state.username.split(' ').join('+');
+    console.log(processedUsername);
+    axios.get(`http://localhost:3000/getuserdata?id=${processedUsername}`)
+      .then(function(userTrovArray) {
+        context.setState({
+          userTrovs: userTrovArray.data,
         });
     })
     .catch(function(error) {

@@ -8,10 +8,17 @@ export default class Trov extends React.Component {
     super(props);
     this.state = {
       currentChallengeNum: 2,
+      challenges: this.props.challenges,
       userLat: 0.00,
       userLong: 0.00,
     }
   }
+  componentWillReceiveProps(newProps) {
+    this.setState({
+      challenges: newProps.challenges
+    });
+  }
+
   completeChallenge() {
     var completed = this.state.currentChallengeNum + 1;
     this.setState({
@@ -20,7 +27,7 @@ export default class Trov extends React.Component {
   }
 
   alertGeoCoords() {
-    var currChall = this.props.challenges.challenges[this.state.currentChallengeNum];
+    var currChall = this.state.challenges[this.state.currentChallengeNum];
     var trovContext = this;
     var userLat;
     var userLong;
@@ -37,13 +44,17 @@ export default class Trov extends React.Component {
     var toRender = [];
     var counter;
     for (counter = 0; counter < this.state.currentChallengeNum; counter++) {
-      var currChall = this.props.challenges.challenges[counter];
-      toRender.push(<Quest challenge={currChall.name} key={counter} displayType={"challenge"}/>);
+      var currChall = this.state.challenges[counter];
+      if (currChall !== undefined) {
+        toRender.push(<Quest challenge={currChall.name} key={counter} displayType={"challenge"}/>);
+      } else {
+        toRender.push(<Quest challenge={"Challenge"} key={counter} displayType={"challenge"}/>);
+      }
     }
-    if (this.props.challenges.challenges[counter] === undefined) {
-      <Quest challenge={"You have completed this Trov"} key={counter} displayType={"hint"}/>
+    if (this.state.challenges[counter] === undefined) {
+      // <Quest challenge={"You have completed this Trov"} key={counter} displayType={"hint"}/>
     } else {
-      toRender.push(<Quest challenge={this.props.challenges.challenges[counter].hint} key={counter} displayType={"hint"}/>);
+      toRender.push(<Quest challenge={this.state.challenges[counter].hint} key={counter} displayType={"hint"}/>);
     }
     return toRender;
   }
@@ -55,7 +66,6 @@ export default class Trov extends React.Component {
         {this.renderChallenges()}
       </ul>
       <button type="button" className="btn" onClick={this.alertGeoCoords.bind(this)}>Complete Challenge</button>
-      <Map />
     </div>
     )
   }
