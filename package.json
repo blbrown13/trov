@@ -9,6 +9,7 @@
     "dev": "webpack -d --watch",
     "build": "webpack -p"
   },
+  "cacheDirectories": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
