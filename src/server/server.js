@@ -85,6 +85,32 @@ server.post('/updateusertrov', function(req, res) {
 res.end();
 });
 
+// *** UPDATE USER TROV CHALLENGE NO **
+server.post('/updateuserchallenge', function(req, res) {
+  var nextChalNumber;
+  var userId = req.body.username;
+  var trovId = req.body.trovName;
+
+  db.connection.query(`use trov`);
+  db.connection.query(`SELECT currentChallengeNo FROM users_trovs WHERE userId = "${userId}" AND trovId = "${trovId}";`,
+    function(error, result) {
+      if(error) {
+        console.log("Error querying database (/updateuserchallenge)");
+      } else {
+        nextChalNumber = result[0].currentChallengeNo + 1;
+        db.connection.query(`UPDATE users_trovs SET currentChallengeNo = ${nextChalNumber} WHERE userId = "${userId}" AND trovId = "${trovId}";`,
+          function(error, result) {
+            if(error) {
+              console.log('Error incrementing users_trovs')
+            }
+          }
+        )
+      }
+    }
+  )
+  res.end();
+});
+
 // *** ADD USER **
 server.post('/addnewusertodb', function(req, res) {
   var newUser = req.body.username;
