@@ -6,7 +6,7 @@ class UserNoTrovMain extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      allTrovs: []
+      allTrovs: this.props.allTrovs
     }
   }
   // componentWillReceiveProps (newProps) {
