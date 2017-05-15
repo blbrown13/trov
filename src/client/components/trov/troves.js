@@ -1,6 +1,6 @@
 import React from 'react';
 import render from 'react-dom';
-import Trov from './trov.js';
+import TrovMain from './trovmain.js';
 const challenges = require('./missionmeltdown.js');
 const tahoe = require('./tahoe.js');
 
@@ -27,7 +27,7 @@ class Troves extends React.Component {
     return (
     <div className="troves">
       <h1>Your Troves</h1>
-      <Trov challenges={this.state.challenges} trovName={this.state.trovNames} completeChallenge={this.props.completeChallenge} progress={this.props.progress}/>
+      <TrovMain challenges={this.state.challenges} trovName={this.state.trovNames} completeChallenge={this.props.completeChallenge} progress={this.props.progress}/>
     </div>
     )
   }

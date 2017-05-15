@@ -13,13 +13,14 @@ class Main extends React.Component {
     super(props);
     this.state = {
       isLoggedIn: false,
-      isOnTrovNow: true,
+      isOnTrovNow: false,
       username: '',
       allTrovs: [],
       userTrovs: [],
       currentTrov: null,
       currentChallengeNum: 0
-    }
+    };
+    this.getAllTrovs();
   }
 
   componentWillReceiveProps(newProps) {
@@ -30,14 +31,20 @@ class Main extends React.Component {
   }
 
   componentWillMount() {
-    this.getAllTrovs();
     navigator.geolocation.getCurrentPosition(function(ps) {
       window.loc = ps;
       console.log('loc: ', ps);
     });
+    this.getUserData();
+    if (this.state.userTrovs != []) {
+      this.setState({
+        isOnTrovNow: true
+      });
+    }
   }
 
   handleSelectTrov () { //how to insert trov as parameter???
+    console.log('Trov selected!')
     if (this.state.isLoggedIn) {
       this.setState({
         isOnTrovNow: true,
@@ -73,7 +80,7 @@ class Main extends React.Component {
         handleLogIn={this.props.handleLogIn}
       />
     } else if (!this.state.isOnTrovNow && this.state.isLoggedIn) {
-      return <UserNoTrovMain allTrovs={this.state.allTrovs}/>
+      return <UserNoTrovMain allTrovs={this.state.allTrovs} selectTrov={this.handleSelectTrov}/>
     } else if (this.state.isOnTrovNow && this.state.isLoggedIn) {
       return <Troves userTrovs={this.state.userTrovs}
                      getUserData={this.getUserData.bind(this)}

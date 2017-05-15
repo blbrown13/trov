@@ -17,17 +17,17 @@ export class VisitorMain extends React.Component {
     <div>
       <div id="visitormain">
         <h1>Find YOUR Trov today</h1>
-      </div>
-      <div id="newloginbutton">
-        <div>Begin your Trov geoadventure now</div>
-        <a className="btn btn-block btn-social btn-facebook" href="/auth/facebook">
-        <span className="fa fa-facebook"></span> Log in with Facebook
-        </a>
+        <div id="newloginbutton">
+          <div>Begin your Trov geoadventure now</div>
+          <a className="btn btn-block btn-social btn-facebook" href="/auth/facebook">
+          <span className="fa fa-facebook"></span> Log in with Facebook
+          </a>
+        </div>
       </div>
       <div id="thetrovstory">
         <h1>What is a Trov?</h1>
           <p>A hint-based exploration of your city</p>
-        <h3>User Testimonials</h3>
+        <h2>User Testimonials</h2>
           <p>Jenny in Madrid, Spain: My friends and I trov every weekend!</p>
           <p>Muhammed in NY, NY: I met my wife troving!!!</p>
           <p>Zhang Lin in Lima, Peru: I found places I never knew in my home city!</p>

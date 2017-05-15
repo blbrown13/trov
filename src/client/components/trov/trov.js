@@ -64,7 +64,7 @@ export default class Trov extends React.Component {
       <ul className="quest">
         {this.renderChallenges()}
       </ul>
-      <button type="button" className="btn" onClick={this.alertGeoCoords.bind(this)}>Complete Challenge</button>
+      <button type="button" className="btn" onClick={this.props.selectTrov}>Join Trov</button>
     </div>
     )
   }
