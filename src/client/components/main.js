@@ -96,7 +96,7 @@ class Main extends React.Component {
       email: email,
       location: location
     }
-    axios.post('http://trov.herokuapp.com/addnewusertodb', newUser)
+    axios.post('http://localhost:3000/addnewusertodb', newUser)
       .then(function() {
         console.log('user added');
       })
@@ -104,7 +104,7 @@ class Main extends React.Component {
 
   getAllTrovs () {
     var context = this;
-    axios.get('http://trov.herokuapp.com/getalltrovs')
+    axios.get('http://localhost:3000/getalltrovs')
       .then(function(trovArray) {
         context.setState({
           allTrovs: trovArray.data
@@ -118,7 +118,7 @@ class Main extends React.Component {
   getUserData () {
     var context = this;
     var processedUsername = this.state.username.split(' ').join('+');
-    axios.get(`http://trov.herokuapp.com/getuserdata?id=${processedUsername}`)
+    axios.get(`http://localhost:3000/getuserdata?id=${processedUsername}`)
       .then(function(userTrovArray) {
         console.log(userTrovArray);
         if (userTrovArray.data !== "User not currently on a trove!") {
@@ -145,7 +145,7 @@ class Main extends React.Component {
       trovName: trovName,
       currentChallengeNum: currentChallengeNum
     }
-    axios.post('http://trov.herokuapp.com/updateusertrov', updatedTrovInfo)
+    axios.post('http://localhost:3000/updateusertrov', updatedTrovInfo)
       .then(function() {
         console.log('user trov data updated');
       })

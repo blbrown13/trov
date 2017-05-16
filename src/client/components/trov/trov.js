@@ -30,7 +30,7 @@ export default class Trov extends React.Component {
   joinTrov() {
     console.log(this);
     var trovContext = this;
-    axios.post('http://trov.herokuapp.com/addnewusertrov', {
+    axios.post('http://localhost:3000/addnewusertrov', {
       username: trovContext.props.username,
       trovName: trovContext.props.trovName
     })
