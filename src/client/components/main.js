@@ -13,7 +13,7 @@ class Main extends React.Component {
     super(props);
     this.state = {
       isLoggedIn: false,
-      isOnTrovNow: false,
+      isOnTrovNow: '',
       username: '',
       allTrovs: [],
       userTrovs: [],
@@ -44,12 +44,11 @@ class Main extends React.Component {
   }
 
   handleSelectTrov () { //how to insert trov as parameter???
-    console.log('Trov selected!')
+    console.log('Trov selected!');
     if (this.state.isLoggedIn) {
       this.setState({
         isOnTrovNow: true,
-        currentTrov: testTrov //change me when we can select new trovs!!!!
-      })
+      });
     }
   }
 
@@ -80,11 +79,12 @@ class Main extends React.Component {
         handleLogIn={this.props.handleLogIn}
       />
     } else if (!this.state.isOnTrovNow && this.state.isLoggedIn) {
-      return <UserNoTrovMain allTrovs={this.state.allTrovs} selectTrov={this.handleSelectTrov}/>
+      return <UserNoTrovMain allTrovs={this.state.allTrovs} selectTrov={this.handleSelectTrov.bind(this)} username={this.state.username} />
     } else if (this.state.isOnTrovNow && this.state.isLoggedIn) {
       return <Troves userTrovs={this.state.userTrovs}
                      getUserData={this.getUserData.bind(this)}
                      completeChallenge={this.handleCompleteChallenge.bind(this)}
+                     username={this.state.username}
                      progress={this.state.currentChallengeNum} />
     }
   }
@@ -120,10 +120,20 @@ class Main extends React.Component {
     var processedUsername = this.state.username.split(' ').join('+');
     axios.get(`http://trov.herokuapp.com/getuserdata?id=${processedUsername}`)
       .then(function(userTrovArray) {
-        context.setState({
-          userTrovs: userTrovArray.data,
-          currentChallengeNum: userTrovArray.data.currTrov[0].currentChallengeNo
-        });
+        console.log(userTrovArray);
+        if (userTrovArray.data !== "User not currently on a trove!") {
+          context.setState({
+            userTrovs: userTrovArray.data,
+            currentChallengeNum: userTrovArray.data.currTrov[0].currentChallengeNo
+          });
+        } else {
+          console.log('User not currently on a trove!');
+          context.setState({
+            isOnTrovNow: false,
+            userTrovs: [],
+            currentChallengeNum: 0
+          });
+        }
     })
     .catch(function(error) {
         console.log('Unable to communicate with server', error);

@@ -2,6 +2,7 @@ import React from 'react';
 import render from 'react-dom';
 import Quest from './quest.js';
 import Map from '../map.js';
+import axios from 'axios';
 
 export default class Trov extends React.Component {
   constructor (props) {
@@ -13,10 +14,31 @@ export default class Trov extends React.Component {
       userLong: 0.00,
     }
   }
+  // componentWillMount() {
+  //   this.setState({
+  //     currentChallengeNum: this.props.progress,
+  //     challenges: this.props.challenges
+  //   });
+  // }
   componentWillReceiveProps(newProps) {
     this.setState({
       currentChallengeNum: newProps.progress,
       challenges: newProps.challenges
+    });
+  }
+
+  joinTrov() {
+    console.log(this);
+    var trovContext = this;
+    axios.post('http://trov.herokuapp.com/addnewusertrov', {
+      username: trovContext.props.username,
+      trovName: trovContext.props.trovName
+    })
+    .then(function() {
+      trovContext.props.selectTrov();
+    })
+    .catch(function(error) {
+      console.log(error);
     });
   }
 
@@ -50,9 +72,7 @@ export default class Trov extends React.Component {
         toRender.push(<Quest challenge={"Challenge"} key={counter} displayType={"challenge"}/>);
       }
     }
-    if (this.state.challenges[counter] === undefined) {
-      toRender.push(<Quest challenge={"You have completed this Trov"} key={counter} displayType={"trov-completion"}/>);
-    } else {
+    if (this.state.challenges[counter] !== undefined) {
       toRender.push(<Quest challenge={this.state.challenges[counter].hint} key={counter} displayType={"hint"}/>);
     }
     return toRender;
@@ -64,7 +84,7 @@ export default class Trov extends React.Component {
       <ul className="quest">
         {this.renderChallenges()}
       </ul>
-      <button type="button" className="btn" onClick={this.props.selectTrov}>Join Trov</button>
+      <button type="button" className="btn" onClick={this.joinTrov.bind(this)}>Join Trov</button>
     </div>
     )
   }
